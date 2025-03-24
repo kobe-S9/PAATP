@@ -1,0 +1,38 @@
+SZX CA_and_N: 1.4
+SZX M_and_BDP: 40004.0
+self.Eta: 0.99996500349965
+SZX ACEN line: 40002.6
+flow 1 send ping 0
+# link 1 received packet 0 flow_id 1
+# link 1 sent packet 0 flow_id 1
+# Middlebox received packet 0 flow_id 1
+#Middlebox send packet 0 flow_id 1
+#Middlebox send packet 0 flow_id 1
+# link 2 received packet 0 flow_id 1
+# link 3 received packet 0 flow_id 1
+# link 2 sent packet 0 flow_id 1
+# link 3 sent packet 0 flow_id 1
+flow 1 received cwd 0
+flow 1 received ping 0
+flow 1  pkt  0 arrived ps
+ self.net.ps_job_record {0: {1: 0}}
+pkt.bitmap {1: 1}
+ self.net.ps_job_record {0: {1: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 1
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 1
+sw complete aggregation
+# link 4 received packet 0 flow_id 1
+# link 4 sent packet 0 flow_id 1
+# Middlebox received packet 0 flow_id 1
+#Middlebox send packet 0 flow_id 1
+# link 2 received packet 0 flow_id 1
+# link 2 sent packet 0 flow_id 1
+flow 1 received pong 0
+return2 ,self.state 3
+
+# Flow INA_PAATP 1 sent ping, received ping, sent pong, recevied pong 1 1 1 1 0.001096
+flow 1 sent_ping 1 received_ping 1 sent_pong 1 received_pong 1
+drop stat {}
+expired time None
+['ssthresh', 'cwnd', 'rtt', 'rate', 'chunk_seq', 'ping_yet_unpong', 'cc', 'lost', 'last_aack', 'last_cwd', 'snd_nxt', 'recieved_cwd', 'q_0', 'q_2', 'qr_0', 'qr_2']
+done!
