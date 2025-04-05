@@ -494,7 +494,7 @@ class Packet(object):
         #for Muilti
         self.quantity_type = None
         self.min_chunk_seq = -1
-    
+        self.max_chunk_seq = -1
 
 
     def hop(self):

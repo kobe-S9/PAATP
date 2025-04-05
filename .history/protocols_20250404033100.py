@@ -1160,9 +1160,8 @@ class INA_PAATP(ATP):
         cur_time = self.get_cur_time()
         new_events = []
         #cwd
-        if self.last_cwd_received_seq < pkt.chunk_seq:
-            self.last_cwd_received_seq = pkt.chunk_seq
-            self.snd_nxt = min(self.last_cwd_received_seq+self.cwnd,self.last_recived_chunk_seq+ self.awd)
+        self.last_cwd_received_seq = pkt.chunk_seq
+        self.snd_nxt = min(self.last_cwd_received_seq+self.cwnd,self.last_recived_chunk_seq+ self.awd)
         
         #awd
         self.Ssum = pkt.Ssum
@@ -1251,7 +1250,7 @@ class Muilt(INA_PAATP):
         self.last_finished = True
 
         #for multi
-     
+        self.chunk_send_times = {}
         self.ping_seq_to_chunk_seq = {}
         self.chunk_resend_queue = OrderedDict()
         
@@ -1379,8 +1378,9 @@ class Muilt(INA_PAATP):
     
     def send_ping(self, chunk_seq,ping_seq,quantify_type,resend_flag, delay=0.0):
         cur_time = self.get_cur_time()
-        if chunk_seq not in self.send_times:
-            self.send_times[chunk_seq] = cur_time
+        self.send_times[ping_seq] = cur_time
+        if chunk_seq not in self.chunk_send_times:
+            self.chunk_send_times[chunk_seq] = cur_time
         
         if ping_seq not in self.ping_seq_to_chunk_seq:
             self.ping_seq_to_chunk_seq[ping_seq] = (chunk_seq,quantify_type)
@@ -1436,9 +1436,8 @@ class Muilt(INA_PAATP):
             self.min_chunk_seq[pkt.chunk_seq] = pkt.min_chunk_seq
 
             #cwd
-            if self.last_cwd_received_seq < pkt.ping_seq:
-                self.last_cwd_received_seq = pkt.ping_seq
-            
+            self.last_cwd_received_seq = pkt.ping_seq
+        
 
             #awd
             self.Ssum = pkt.Ssum
@@ -1580,9 +1579,7 @@ class Muilt(INA_PAATP):
             cur_time = self.get_cur_time()
 
             self.last_pong_received_time = cur_time
-
-            if self.last_recived_chunk_seq < pkt.chunk_seq:
-                self.last_recived_chunk_seq = pkt.chunk_seq
+            self.last_recived_chunk_seq = pkt.chunk_seq
 
             print(f"flow {self.id} received pong {pkt.chunk_seq} received ping {pkt.ping_seq}")
             self.received_pong += 1
@@ -1779,22 +1776,13 @@ class EdgeBox(Middlebox):
         self.remove_timeout_mupchunk_running = False
         self.relocation_enabled = relocation_enabled
 
-        #aggregation
-        self.aggregator = {}
-
         #for multi
         self.count_a = {}
         self.count_b = {}
         self.count_c = {}
         self.count_d = {}
 
-        self.fanIndegree_a = {}
-        self.fanindegree_b = {}
-        self.fanindegree_c = {}
-        self.fanindegree_d = {}
-
-        self.bitmap_flag = {}
-        self.min_chunk_seq = {}
+        self.fanIndegre_a = {}
 
     def stop(self):
         self.state = self.STOPPED
@@ -1844,119 +1832,20 @@ class EdgeBox(Middlebox):
             new_events.append(e)
 
         return new_events
-    def create_cwd(self, pkt):
-        flow_for_id = next((f for f in self.net.named_flows.values() if (f.id == pkt.flow.id and f.TYPE == pkt.flow.TYPE)), None)
-        if(flow_for_id == None):
-            raise ValueError
-        else:
-            Ssum = self.mup_cache.update_gradient_seq(pkt.flow.job_id,pkt.flow.id, pkt.chunk_seq)
-            cwd = Packet(sent_time=pkt.sent_time,
-                        priority= pkt.priority,
-                        pkt_type=flow_for_id.CWD_PKT_TYPE,
-                        size_in_bits=flow_for_id.CWD_PKT_SIZE_IN_BITS,
-                        flow=flow_for_id,
-                        ecn=pkt.ecn,
-                        ece=pkt.ece,
-                        path=[flow_for_id.reversed_path[-2], flow_for_id.reversed_path[-1]],
-
-            )
-            cwd.hop_cnt = 0
-            cwd.ecn == pkt.ecn
-            cwd.ece = pkt.ece
-            cwd.resend = pkt.resend
-            cwd.ping_path = flow_for_id.path
-            cwd.ack_seq = pkt.ack_seq    
-
-            cwd.chunk_seq = pkt.chunk_seq      
-            cwd.recv_time = pkt.recv_time
-
-            cwd.Ssum = Ssum
-            return cwd
-    def create_ack(self, pkt):
-        
 
     def process_muilt(self, pkt):
         
         job_id = pkt.flow.job_id
         flow_id = pkt.flow.id
-        chunk_seq = pkt.chunk_seq
-        ping_seq = pkt.ping_seq
 
-        chunk_key = (job_id, chunk_seq, ping_seq)
+        chunk_key = (job_id, pkt.chunk_seq)
 
         cur_time = self.get_cur_time()
         pkts = []
-
-        
-        if pkt.ecn==Packet.CE:
-            pkt.ece = True 
-
         if pkt.pkt_type == Muilt.PING_PKT_TYPE:
-            value = self.bitmap_flag.get(ping_seq)
-            if value is not None:
-                print(f"ping_seq {ping_seq} 存在，值为 {value}")
 
-                #已经聚合
-                TODO: #返回一个cwd
-                cwd = self.create_cwd(pkt)
-                pkts.append(cwd)
-
-            else:
-             
-                if len(self.aggregator) >= self.max_mup_cache_size:
-                    print('MDP cache overflow')
-                else:
-                    #聚合，更新cache
-                    self.bitmap_flag[ping_seq] = 1
-                    self.aggregator.setdefault((job_id,chunk_seq), set()).add(flow_id)
-
-                    #更新fanIndegree和count
-                    if pkt.quantify_type == Muilt.type_a or pkt.quantify_type == Muilt.type_ab or \
-                    pkt.quantify_type == Muilt.type_abc or pkt.quantify_type == Muilt.type_abcd:
-                        #a的共同操作
-                        self.fanIndegree_a[chunk_seq] = self.net.jobs_config[job_id]['flownum']
-                        self.count_a[chunk_seq] += 1
-
-                        if pkt.quantify_type == Muilt.type_ab:
-                            self.fanindegree_b[chunk_seq] += 1
-                        elif pkt.quantify_type == Muilt.type_abc:
-                            self.fanindegree_b[chunk_seq] += 1
-                            self.fanindegree_c[chunk_seq] += 1
-                        elif pkt.quantify_type == Muilt.type_abcd:
-                            self.fanindegree_b[chunk_seq] += 1
-                            self.fanindegree_c[chunk_seq] += 1
-                            self.fanindegree_d[chunk_seq] += 1
-                        else:
-                            raise ValueError("发生错误,pkt类型错误,程序终止")
-                    elif pkt.quantify_type == Muilt.type_b:
-                        self.count_b[chunk_seq] += 1
-                    elif pkt.quantify_type == Muilt.type_c:
-                        self.count_c[chunk_seq] += 1
-                    elif pkt.quantify_type == Muilt.type_d:
-                        self.count_d[chunk_seq] += 1
-                    else:
-                        raise ValueError("发生错误,pkt类型错误,程序终止")
-
-             #判断聚合是否完成
-                #聚合完成
-                if self.count_a[chunk_seq] == self.fanIndegree_a[chunk_seq] and self.count_b[chunk_seq] == self.fanindegree_b[chunk_seq] and \
-                self.count_c[chunk_seq] == self.fanindegree_c[chunk_seq] and self.count_d[chunk_seq] == self.fanindegree_d[chunk_seq]:
-                    
-                    #更新min_chunk_seq
-                    if job_id not in self.min_chunk_seq:
-                        self.min_chunk_seq[job_id] = chunk_seq
-                    else:
-                        if chunk_seq > self.min_chunk_seq[job_id]:
-                            self.min_chunk_seq[job_id] = chunk_seq
-                        else:
-                            raise ValueError("发生错误，当前chunkseq为已经完成的chunkseq程序终止")
-
-                    TODO: #发送一个ack
-                    ack_pkt = 
-                    
-            
-            TODO: #返回一个cwd
-
+            if pkt.ecn==Packet.CE:
+                pkt.ece = True 
             if pkt.resend:
                 if self.mup_cache.has_cache(job_id, pkt.chunk_seq,flow_id):
                     for fid in self.mup_cache_meta[chunk_key]:
@@ -1971,7 +1860,6 @@ class EdgeBox(Middlebox):
                 pkts.append(pkt)
 
             else:
-               
                 if flow_id not in self.mup_cache_meta.get(chunk_key, []):
 
                     self.mup_cache_meta.setdefault(chunk_key, set()).add(flow_id)
@@ -1986,7 +1874,7 @@ class EdgeBox(Middlebox):
                             raise ValueError
                         else:
                             Ssum = self.mup_cache.update_gradient_seq(job_id,flow_id, pkt.chunk_seq)
-                            cwd = Packet(sent_time=flow_for_id.send_times[pkt.chunk_seq],
+                            awd_pkt = Packet(sent_time=flow_for_id.send_times[pkt.chunk_seq],
                                         priority= pkt.priority,
                                         pkt_type=flow_for_id.CWD_PKT_TYPE,
                                         size_in_bits=flow_for_id.CWD_PKT_SIZE_IN_BITS,
@@ -1996,18 +1884,18 @@ class EdgeBox(Middlebox):
                                         path=[flow_for_id.reversed_path[-2], flow_for_id.reversed_path[-1]],
 
                             )
-                            cwd.hop_cnt = 0
-                            cwd.ecn == pkt.ecn
-                            cwd.ece = pkt.ece
-                            cwd.resend = pkt.resend
-                            cwd.ping_path = flow_for_id.path
-                            cwd.ack_seq = pkt.ack_seq    
+                            awd_pkt.hop_cnt = 0
+                            awd_pkt.ecn == pkt.ecn
+                            awd_pkt.ece = pkt.ece
+                            awd_pkt.resend = pkt.resend
+                            awd_pkt.ping_path = flow_for_id.path
+                            awd_pkt.ack_seq = pkt.ack_seq    
 
-                            cwd.chunk_seq = pkt.chunk_seq      
-                            cwd.recv_time = pkt.recv_time
+                            awd_pkt.chunk_seq = pkt.chunk_seq      
+                            awd_pkt.recv_time = pkt.recv_time
 
-                            cwd.Ssum = Ssum
-                            pkts.append(cwd)
+                            awd_pkt.Ssum = Ssum
+                            pkts.append(awd_pkt)
                     else:
                         pass
 
@@ -2096,7 +1984,7 @@ class EdgeBox(Middlebox):
                             raise ValueError
                         else:
                             Ssum = self.mup_cache.update_gradient_seq(job_id,flow_id, pkt.chunk_seq)
-                            cwd = Packet(sent_time=flow_for_id.send_times[pkt.chunk_seq],
+                            awd_pkt = Packet(sent_time=flow_for_id.send_times[pkt.chunk_seq],
                                         priority= pkt.priority,
                                         pkt_type=flow_for_id.CWD_PKT_TYPE,
                                         size_in_bits=flow_for_id.CWD_PKT_SIZE_IN_BITS,
@@ -2106,18 +1994,18 @@ class EdgeBox(Middlebox):
                                         path=[flow_for_id.reversed_path[-2], flow_for_id.reversed_path[-1]],
 
                             )
-                            cwd.hop_cnt = 0
-                            cwd.ecn == pkt.ecn
-                            cwd.ece = pkt.ece
-                            cwd.resend = pkt.resend
-                            cwd.ping_path = flow_for_id.path
-                            cwd.ack_seq = pkt.ack_seq    
+                            awd_pkt.hop_cnt = 0
+                            awd_pkt.ecn == pkt.ecn
+                            awd_pkt.ece = pkt.ece
+                            awd_pkt.resend = pkt.resend
+                            awd_pkt.ping_path = flow_for_id.path
+                            awd_pkt.ack_seq = pkt.ack_seq    
 
-                            cwd.chunk_seq = pkt.chunk_seq      
-                            cwd.recv_time = pkt.recv_time
+                            awd_pkt.chunk_seq = pkt.chunk_seq      
+                            awd_pkt.recv_time = pkt.recv_time
 
-                            cwd.Ssum = Ssum
-                            pkts.append(cwd)
+                            awd_pkt.Ssum = Ssum
+                            pkts.append(awd_pkt)
                     else:
                         pass
 

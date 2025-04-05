@@ -2,37 +2,1611 @@ SZX CA_and_N: 1.4
 SZX M_and_BDP: 40004.0
 self.Eta: 0.99996500349965
 SZX ACEN line: 40002.6
+flow 2 send ping 0
 flow 1 send ping 0
 # link 1 received packet 0 flow_id 1
+# link 3 received packet 0 flow_id 2
 # link 1 sent packet 0 flow_id 1
+# link 3 sent packet 0 flow_id 2
 # Middlebox received packet 0 flow_id 1
 #Middlebox send packet 0 flow_id 1
-#Middlebox send packet 0 flow_id 1
 # link 2 received packet 0 flow_id 1
-# link 3 received packet 0 flow_id 1
+# Middlebox received packet 0 flow_id 2
+#Middlebox send packet 0 flow_id 1
+#Middlebox send packet 0 flow_id 2
+# link 2 received packet 0 flow_id 1
+# link 5 received packet 0 flow_id 2
 # link 2 sent packet 0 flow_id 1
-# link 3 sent packet 0 flow_id 1
+# link 2 sent packet 0 flow_id 1
+# link 5 sent packet 0 flow_id 2
 flow 1 received cwd 0
-flow 1 received ping 0
-flow 1  pkt  0 arrived ps
- self.net.ps_job_record {0: {1: 0}}
-pkt.bitmap {1: 1}
- self.net.ps_job_record {0: {1: 1}}
-len(self.net.ps_job_record[pkt.flow.job_id]) 1
-self.net.jobs_config[pkt.flow.job_id]['flownum'] 1
+flow 1 received cwd 0
+flow 1 send ping 1
+# link 1 received packet 1 flow_id 1
+flow 2 received ping 0
+flow 2  pkt  0 arrived ps
+ self.net.ps_job_record {0: {1: 0, 2: 0}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
 sw complete aggregation
-# link 4 received packet 0 flow_id 1
-# link 4 sent packet 0 flow_id 1
-# Middlebox received packet 0 flow_id 1
+# link 6 received packet 0 flow_id 2
+flow 1 send ping 2
+# link 1 received packet 2 flow_id 1
+# link 1 sent packet 1 flow_id 1
+# link 6 sent packet 0 flow_id 2
+flow 1 send ping 3
+# link 1 received packet 3 flow_id 1
+# link 1 sent packet 2 flow_id 1
+flow 1 send ping 4
+# link 1 received packet 4 flow_id 1
+# link 1 sent packet 3 flow_id 1
+flow 1 send ping 5
+# link 1 received packet 5 flow_id 1
+# link 1 sent packet 4 flow_id 1
+flow 1 send ping 6
+# link 1 received packet 6 flow_id 1
+# link 1 sent packet 5 flow_id 1
+flow 1 send ping 7
+# link 1 received packet 7 flow_id 1
+flow 1 send ping 8
+# link 1 received packet 8 flow_id 1
+# link 1 sent packet 6 flow_id 1
+flow 1 send ping 9
+# link 1 received packet 9 flow_id 1
+# link 1 sent packet 7 flow_id 1
+flow 1 send ping 10
+# link 1 received packet 10 flow_id 1
+# link 1 sent packet 8 flow_id 1
+flow 1 send ping 11
+# link 1 received packet 11 flow_id 1
+# link 1 sent packet 9 flow_id 1
+flow 1 send ping 12
+# link 1 received packet 12 flow_id 1
+flow 1 send ping 13
+# link 1 received packet 13 flow_id 1
+# link 1 sent packet 10 flow_id 1
+flow 1 send ping 14
+# link 1 received packet 14 flow_id 1
+# link 1 sent packet 11 flow_id 1
+# Middlebox received packet 1 flow_id 1
+#Middlebox send packet 1 flow_id 1
+# link 2 received packet 1 flow_id 1
+# link 2 sent packet 1 flow_id 1
+# Middlebox received packet 0 flow_id 2
 #Middlebox send packet 0 flow_id 1
+#Middlebox send packet 0 flow_id 2
 # link 2 received packet 0 flow_id 1
+# link 4 received packet 0 flow_id 2
+# link 1 sent packet 12 flow_id 1
+# Middlebox received packet 2 flow_id 1
+#Middlebox send packet 2 flow_id 1
+# link 2 received packet 2 flow_id 1
 # link 2 sent packet 0 flow_id 1
+# link 4 sent packet 0 flow_id 2
+# link 2 sent packet 2 flow_id 1
+# link 1 sent packet 13 flow_id 1
+# Middlebox received packet 3 flow_id 1
+#Middlebox send packet 3 flow_id 1
+# link 2 received packet 3 flow_id 1
+# link 2 sent packet 3 flow_id 1
+# link 1 sent packet 14 flow_id 1
+# Middlebox received packet 4 flow_id 1
+#Middlebox send packet 4 flow_id 1
+# link 2 received packet 4 flow_id 1
+# link 2 sent packet 4 flow_id 1
+# Middlebox received packet 5 flow_id 1
+#Middlebox send packet 5 flow_id 1
+# link 2 received packet 5 flow_id 1
+# link 2 sent packet 5 flow_id 1
+# Middlebox received packet 6 flow_id 1
+#Middlebox send packet 6 flow_id 1
+# link 2 received packet 6 flow_id 1
+# link 2 sent packet 6 flow_id 1
+# Middlebox received packet 7 flow_id 1
+#Middlebox send packet 7 flow_id 1
+# link 2 received packet 7 flow_id 1
+# link 2 sent packet 7 flow_id 1
+# Middlebox received packet 8 flow_id 1
+#Middlebox send packet 8 flow_id 1
+# link 2 received packet 8 flow_id 1
+# link 2 sent packet 8 flow_id 1
+# Middlebox received packet 9 flow_id 1
+#Middlebox send packet 9 flow_id 1
+# link 2 received packet 9 flow_id 1
+# link 2 sent packet 9 flow_id 1
+# Middlebox received packet 10 flow_id 1
+#Middlebox send packet 10 flow_id 1
+# link 2 received packet 10 flow_id 1
+# link 2 sent packet 10 flow_id 1
+# Middlebox received packet 11 flow_id 1
+#Middlebox send packet 11 flow_id 1
+# link 2 received packet 11 flow_id 1
+# link 2 sent packet 11 flow_id 1
+flow 1 received cwd 1
+# Middlebox received packet 12 flow_id 1
+#Middlebox send packet 12 flow_id 1
+# link 2 received packet 12 flow_id 1
+# link 2 sent packet 12 flow_id 1
+flow 2 received pong 0
 flow 1 received pong 0
-return2 ,self.state 3
-
-# Flow INA_PAATP 1 sent ping, received ping, sent pong, recevied pong 1 1 1 1 0.001096
-flow 1 sent_ping 1 received_ping 1 sent_pong 1 received_pong 1
-drop stat {}
-expired time None
-['ssthresh', 'cwnd', 'rtt', 'rate', 'chunk_seq', 'ping_yet_unpong', 'cc', 'lost', 'last_aack', 'last_cwd', 'snd_nxt', 'recieved_cwd', 'q_0', 'q_2', 'qr_0', 'qr_2']
-done!
+flow 1 send ping 15
+flow 2 send ping 1
+# link 1 received packet 15 flow_id 1
+# link 3 received packet 1 flow_id 2
+flow 1 received cwd 2
+# Middlebox received packet 13 flow_id 1
+#Middlebox send packet 13 flow_id 1
+# link 2 received packet 13 flow_id 1
+# link 2 sent packet 13 flow_id 1
+flow 1 received cwd 3
+flow 2 send ping 2
+# link 3 received packet 2 flow_id 2
+flow 1 send ping 16
+# link 1 received packet 16 flow_id 1
+# link 1 sent packet 15 flow_id 1
+# link 3 sent packet 1 flow_id 2
+# Middlebox received packet 14 flow_id 1
+#Middlebox send packet 14 flow_id 1
+# link 2 received packet 14 flow_id 1
+# link 2 sent packet 14 flow_id 1
+flow 2 send ping 3
+# link 3 received packet 3 flow_id 2
+flow 1 received cwd 4
+# link 1 sent packet 16 flow_id 1
+# link 3 sent packet 2 flow_id 2
+flow 2 send ping 4
+# link 3 received packet 4 flow_id 2
+flow 1 received cwd 5
+# link 3 sent packet 3 flow_id 2
+flow 2 send ping 5
+# link 3 received packet 5 flow_id 2
+flow 1 received cwd 6
+# link 3 sent packet 4 flow_id 2
+flow 2 send ping 6
+# link 3 received packet 6 flow_id 2
+flow 1 received cwd 7
+flow 2 send ping 7
+# link 3 received packet 7 flow_id 2
+# link 3 sent packet 5 flow_id 2
+flow 1 received cwd 8
+flow 2 send ping 8
+# link 3 received packet 8 flow_id 2
+# link 3 sent packet 6 flow_id 2
+flow 2 send ping 9
+# link 3 received packet 9 flow_id 2
+flow 1 received cwd 9
+# link 3 sent packet 7 flow_id 2
+flow 2 send ping 10
+# link 3 received packet 10 flow_id 2
+flow 1 received cwd 10
+# link 3 sent packet 8 flow_id 2
+flow 2 send ping 11
+# link 3 received packet 11 flow_id 2
+flow 1 received cwd 11
+# link 3 sent packet 9 flow_id 2
+flow 2 send ping 12
+# link 3 received packet 12 flow_id 2
+flow 1 received cwd 12
+# link 3 sent packet 10 flow_id 2
+flow 2 send ping 13
+# link 3 received packet 13 flow_id 2
+flow 1 received cwd 13
+flow 2 send ping 14
+# link 3 received packet 14 flow_id 2
+# link 3 sent packet 11 flow_id 2
+# Middlebox received packet 1 flow_id 2
+#Middlebox send packet 1 flow_id 1
+#Middlebox send packet 1 flow_id 2
+# link 2 received packet 1 flow_id 1
+# link 5 received packet 1 flow_id 2
+# Middlebox received packet 15 flow_id 1
+#Middlebox send packet 15 flow_id 1
+# link 2 received packet 15 flow_id 1
+# link 2 sent packet 1 flow_id 1
+flow 1 received cwd 14
+# link 2 sent packet 15 flow_id 1
+# link 3 sent packet 12 flow_id 2
+# link 5 sent packet 1 flow_id 2
+# Middlebox received packet 2 flow_id 2
+#Middlebox send packet 2 flow_id 1
+#Middlebox send packet 2 flow_id 2
+# link 2 received packet 2 flow_id 1
+# link 5 received packet 2 flow_id 2
+# Middlebox received packet 16 flow_id 1
+#Middlebox send packet 16 flow_id 1
+# link 2 received packet 16 flow_id 1
+# link 2 sent packet 2 flow_id 1
+# link 2 sent packet 16 flow_id 1
+# link 3 sent packet 13 flow_id 2
+# link 5 sent packet 2 flow_id 2
+# Middlebox received packet 3 flow_id 2
+#Middlebox send packet 3 flow_id 1
+#Middlebox send packet 3 flow_id 2
+# link 2 received packet 3 flow_id 1
+# link 5 received packet 3 flow_id 2
+# link 2 sent packet 3 flow_id 1
+# link 3 sent packet 14 flow_id 2
+# link 5 sent packet 3 flow_id 2
+# Middlebox received packet 4 flow_id 2
+#Middlebox send packet 4 flow_id 1
+#Middlebox send packet 4 flow_id 2
+# link 2 received packet 4 flow_id 1
+# link 5 received packet 4 flow_id 2
+# link 2 sent packet 4 flow_id 1
+# link 5 sent packet 4 flow_id 2
+# Middlebox received packet 5 flow_id 2
+#Middlebox send packet 5 flow_id 1
+#Middlebox send packet 5 flow_id 2
+# link 2 received packet 5 flow_id 1
+# link 5 received packet 5 flow_id 2
+# link 2 sent packet 5 flow_id 1
+# link 5 sent packet 5 flow_id 2
+# Middlebox received packet 6 flow_id 2
+#Middlebox send packet 6 flow_id 1
+#Middlebox send packet 6 flow_id 2
+# link 2 received packet 6 flow_id 1
+# link 5 received packet 6 flow_id 2
+# link 2 sent packet 6 flow_id 1
+# link 5 sent packet 6 flow_id 2
+# Middlebox received packet 7 flow_id 2
+#Middlebox send packet 7 flow_id 1
+#Middlebox send packet 7 flow_id 2
+# link 2 received packet 7 flow_id 1
+# link 5 received packet 7 flow_id 2
+# link 2 sent packet 7 flow_id 1
+# link 5 sent packet 7 flow_id 2
+# Middlebox received packet 8 flow_id 2
+#Middlebox send packet 8 flow_id 1
+#Middlebox send packet 8 flow_id 2
+# link 2 received packet 8 flow_id 1
+# link 5 received packet 8 flow_id 2
+# link 2 sent packet 8 flow_id 1
+# link 5 sent packet 8 flow_id 2
+# Middlebox received packet 9 flow_id 2
+#Middlebox send packet 9 flow_id 1
+#Middlebox send packet 9 flow_id 2
+# link 2 received packet 9 flow_id 1
+# link 5 received packet 9 flow_id 2
+# link 2 sent packet 9 flow_id 1
+# link 5 sent packet 9 flow_id 2
+# Middlebox received packet 10 flow_id 2
+#Middlebox send packet 10 flow_id 1
+#Middlebox send packet 10 flow_id 2
+# link 2 received packet 10 flow_id 1
+# link 5 received packet 10 flow_id 2
+# link 2 sent packet 10 flow_id 1
+# link 5 sent packet 10 flow_id 2
+# Middlebox received packet 11 flow_id 2
+#Middlebox send packet 11 flow_id 1
+#Middlebox send packet 11 flow_id 2
+# link 2 received packet 11 flow_id 1
+# link 5 received packet 11 flow_id 2
+# link 2 sent packet 11 flow_id 1
+flow 1 received cwd 1
+flow 1 received cwd 15
+# link 5 sent packet 11 flow_id 2
+# Middlebox received packet 12 flow_id 2
+#Middlebox send packet 12 flow_id 1
+#Middlebox send packet 12 flow_id 2
+# link 2 received packet 12 flow_id 1
+# link 5 received packet 12 flow_id 2
+# link 2 sent packet 12 flow_id 1
+flow 2 received ping 1
+flow 2  pkt  1 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 1 flow_id 2
+flow 1 received cwd 2
+flow 1 received cwd 16
+# link 5 sent packet 12 flow_id 2
+# Middlebox received packet 13 flow_id 2
+#Middlebox send packet 13 flow_id 1
+#Middlebox send packet 13 flow_id 2
+# link 2 received packet 13 flow_id 1
+# link 5 received packet 13 flow_id 2
+# link 2 sent packet 13 flow_id 1
+# link 6 sent packet 1 flow_id 2
+flow 2 received ping 2
+flow 2  pkt  2 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 2 flow_id 2
+flow 1 received cwd 3
+# link 5 sent packet 13 flow_id 2
+# Middlebox received packet 14 flow_id 2
+#Middlebox send packet 14 flow_id 1
+#Middlebox send packet 14 flow_id 2
+# link 2 received packet 14 flow_id 1
+# link 5 received packet 14 flow_id 2
+# link 2 sent packet 14 flow_id 1
+flow 2 received ping 3
+flow 2  pkt  3 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 3 flow_id 2
+# link 6 sent packet 2 flow_id 2
+flow 1 received cwd 4
+# link 5 sent packet 14 flow_id 2
+flow 2 received ping 4
+flow 2  pkt  4 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 4 flow_id 2
+# link 6 sent packet 3 flow_id 2
+flow 1 received cwd 5
+# link 6 sent packet 4 flow_id 2
+flow 2 received ping 5
+flow 2  pkt  5 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 5 flow_id 2
+flow 1 received cwd 6
+flow 2 received ping 6
+flow 2  pkt  6 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 6 flow_id 2
+# link 6 sent packet 5 flow_id 2
+flow 1 received cwd 7
+flow 2 received ping 7
+flow 2  pkt  7 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 7 flow_id 2
+# link 6 sent packet 6 flow_id 2
+flow 1 received cwd 8
+flow 2 received ping 8
+flow 2  pkt  8 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 8 flow_id 2
+# link 6 sent packet 7 flow_id 2
+flow 1 received cwd 9
+# link 6 sent packet 8 flow_id 2
+flow 2 received ping 9
+flow 2  pkt  9 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 9 flow_id 2
+flow 1 received cwd 10
+flow 2 received ping 10
+flow 2  pkt  10 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 10 flow_id 2
+# link 6 sent packet 9 flow_id 2
+flow 1 received cwd 11
+flow 2 received ping 11
+flow 2  pkt  11 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 11 flow_id 2
+# link 6 sent packet 10 flow_id 2
+flow 1 received cwd 12
+# link 6 sent packet 11 flow_id 2
+flow 2 received ping 12
+flow 2  pkt  12 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 12 flow_id 2
+flow 1 received cwd 13
+# Middlebox received packet 1 flow_id 2
+#Middlebox send packet 1 flow_id 1
+#Middlebox send packet 1 flow_id 2
+# link 2 received packet 1 flow_id 1
+# link 4 received packet 1 flow_id 2
+flow 2 received ping 13
+flow 2  pkt  13 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 13 flow_id 2
+# link 6 sent packet 12 flow_id 2
+flow 1 received cwd 14
+# link 2 sent packet 1 flow_id 1
+# link 4 sent packet 1 flow_id 2
+# Middlebox received packet 2 flow_id 2
+#Middlebox send packet 2 flow_id 1
+#Middlebox send packet 2 flow_id 2
+# link 2 received packet 2 flow_id 1
+# link 4 received packet 2 flow_id 2
+flow 2 received ping 14
+flow 2  pkt  14 arrived ps
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+pkt.bitmap {1: 1, 2: 1}
+ self.net.ps_job_record {0: {1: 1, 2: 1}}
+len(self.net.ps_job_record[pkt.flow.job_id]) 2
+self.net.jobs_config[pkt.flow.job_id]['flownum'] 2
+sw complete aggregation
+# link 6 received packet 14 flow_id 2
+# link 6 sent packet 13 flow_id 2
+# link 2 sent packet 2 flow_id 1
+# link 4 sent packet 2 flow_id 2
+# Middlebox received packet 3 flow_id 2
+#Middlebox send packet 3 flow_id 1
+#Middlebox send packet 3 flow_id 2
+# link 2 received packet 3 flow_id 1
+# link 4 received packet 3 flow_id 2
+# link 6 sent packet 14 flow_id 2
+# link 2 sent packet 3 flow_id 1
+# link 4 sent packet 3 flow_id 2
+# Middlebox received packet 4 flow_id 2
+#Middlebox send packet 4 flow_id 1
+#Middlebox send packet 4 flow_id 2
+# link 2 received packet 4 flow_id 1
+# link 4 received packet 4 flow_id 2
+# Middlebox received packet 5 flow_id 2
+#Middlebox send packet 5 flow_id 1
+#Middlebox send packet 5 flow_id 2
+# link 2 received packet 5 flow_id 1
+# link 4 received packet 5 flow_id 2
+# link 2 sent packet 4 flow_id 1
+# link 4 sent packet 4 flow_id 2
+# link 2 sent packet 5 flow_id 1
+# link 4 sent packet 5 flow_id 2
+# Middlebox received packet 6 flow_id 2
+#Middlebox send packet 6 flow_id 1
+#Middlebox send packet 6 flow_id 2
+# link 2 received packet 6 flow_id 1
+# link 4 received packet 6 flow_id 2
+# link 2 sent packet 6 flow_id 1
+# link 4 sent packet 6 flow_id 2
+# Middlebox received packet 7 flow_id 2
+#Middlebox send packet 7 flow_id 1
+#Middlebox send packet 7 flow_id 2
+# link 2 received packet 7 flow_id 1
+# link 4 received packet 7 flow_id 2
+# Middlebox received packet 8 flow_id 2
+#Middlebox send packet 8 flow_id 1
+#Middlebox send packet 8 flow_id 2
+# link 2 received packet 8 flow_id 1
+# link 4 received packet 8 flow_id 2
+# link 2 sent packet 7 flow_id 1
+# link 4 sent packet 7 flow_id 2
+# link 2 sent packet 8 flow_id 1
+# link 4 sent packet 8 flow_id 2
+# Middlebox received packet 9 flow_id 2
+#Middlebox send packet 9 flow_id 1
+#Middlebox send packet 9 flow_id 2
+# link 2 received packet 9 flow_id 1
+# link 4 received packet 9 flow_id 2
+# link 2 sent packet 9 flow_id 1
+# link 4 sent packet 9 flow_id 2
+# Middlebox received packet 10 flow_id 2
+#Middlebox send packet 10 flow_id 1
+#Middlebox send packet 10 flow_id 2
+# link 2 received packet 10 flow_id 1
+# link 4 received packet 10 flow_id 2
+# Middlebox received packet 11 flow_id 2
+#Middlebox send packet 11 flow_id 1
+#Middlebox send packet 11 flow_id 2
+# link 2 received packet 11 flow_id 1
+# link 4 received packet 11 flow_id 2
+# link 2 sent packet 10 flow_id 1
+# link 4 sent packet 10 flow_id 2
+# link 2 sent packet 11 flow_id 1
+# link 4 sent packet 11 flow_id 2
+# Middlebox received packet 12 flow_id 2
+#Middlebox send packet 12 flow_id 1
+#Middlebox send packet 12 flow_id 2
+# link 2 received packet 12 flow_id 1
+# link 4 received packet 12 flow_id 2
+flow 1 received pong 1
+flow 2 received pong 1
+flow 1 send ping 17
+# link 1 received packet 17 flow_id 1
+# link 2 sent packet 12 flow_id 1
+# link 4 sent packet 12 flow_id 2
+# Middlebox received packet 13 flow_id 2
+#Middlebox send packet 13 flow_id 1
+#Middlebox send packet 13 flow_id 2
+# link 2 received packet 13 flow_id 1
+# link 4 received packet 13 flow_id 2
+flow 1 received pong 2
+flow 2 received pong 2
+flow 1 send ping 18
+# link 1 received packet 18 flow_id 1
+# link 1 sent packet 17 flow_id 1
+# Middlebox received packet 14 flow_id 2
+#Middlebox send packet 14 flow_id 1
+#Middlebox send packet 14 flow_id 2
+# link 2 received packet 14 flow_id 1
+# link 4 received packet 14 flow_id 2
+# link 2 sent packet 13 flow_id 1
+# link 4 sent packet 13 flow_id 2
+flow 1 send ping 19
+# link 1 received packet 19 flow_id 1
+flow 2 received pong 3
+flow 1 received pong 3
+# link 1 sent packet 18 flow_id 1
+# link 2 sent packet 14 flow_id 1
+# link 4 sent packet 14 flow_id 2
+flow 1 send ping 20
+# link 1 received packet 20 flow_id 1
+flow 2 received pong 4
+flow 1 received pong 4
+# link 1 sent packet 19 flow_id 1
+flow 1 send ping 21
+# link 1 received packet 21 flow_id 1
+flow 2 received pong 5
+flow 1 received pong 5
+# link 1 sent packet 20 flow_id 1
+flow 1 send ping 22
+# link 1 received packet 22 flow_id 1
+flow 1 received pong 6
+flow 2 received pong 6
+flow 1 send ping 23
+# link 1 received packet 23 flow_id 1
+# link 1 sent packet 21 flow_id 1
+flow 1 send ping 24
+flow 1 received pong 7
+flow 2 received pong 7
+# link 1 received packet 24 flow_id 1
+# link 1 sent packet 22 flow_id 1
+flow 1 send ping 25
+# link 1 received packet 25 flow_id 1
+flow 2 received pong 8
+flow 1 received pong 8
+# link 1 sent packet 23 flow_id 1
+flow 1 send ping 26
+# link 1 received packet 26 flow_id 1
+flow 1 received pong 9
+flow 2 received pong 9
+# link 1 sent packet 24 flow_id 1
+flow 1 send ping 27
+# link 1 received packet 27 flow_id 1
+flow 2 received pong 10
+flow 1 received pong 10
+# link 1 sent packet 25 flow_id 1
+flow 1 send ping 28
+# link 1 received packet 28 flow_id 1
+flow 2 received pong 11
+flow 1 received pong 11
+flow 1 send ping 29
+# link 1 received packet 29 flow_id 1
+# link 1 sent packet 26 flow_id 1
+flow 1 send ping 30
+# link 1 received packet 30 flow_id 1
+flow 2 received pong 12
+flow 1 received pong 12
+# link 1 sent packet 27 flow_id 1
+# Middlebox received packet 17 flow_id 1
+#Middlebox send packet 17 flow_id 1
+# link 2 received packet 17 flow_id 1
+# link 2 sent packet 17 flow_id 1
+flow 1 send ping 31
+# link 1 received packet 31 flow_id 1
+flow 2 received pong 13
+flow 1 received pong 13
+# link 1 sent packet 28 flow_id 1
+# Middlebox received packet 18 flow_id 1
+#Middlebox send packet 18 flow_id 1
+# link 2 received packet 18 flow_id 1
+flow 1 send ping 32
+# link 1 received packet 32 flow_id 1
+# link 2 sent packet 18 flow_id 1
+flow 2 received pong 14
+flow 1 received pong 14
+# link 1 sent packet 29 flow_id 1
+flow 1 send ping 33
+# link 1 received packet 33 flow_id 1
+# Middlebox received packet 19 flow_id 1
+#Middlebox send packet 19 flow_id 1
+# link 2 received packet 19 flow_id 1
+# link 2 sent packet 19 flow_id 1
+# link 1 sent packet 30 flow_id 1
+flow 1 send ping 34
+# link 1 received packet 34 flow_id 1
+# Middlebox received packet 20 flow_id 1
+#Middlebox send packet 20 flow_id 1
+# link 2 received packet 20 flow_id 1
+# link 2 sent packet 20 flow_id 1
+flow 1 send ping 35
+# link 1 received packet 35 flow_id 1
+# link 1 sent packet 31 flow_id 1
+# Middlebox received packet 21 flow_id 1
+#Middlebox send packet 21 flow_id 1
+# link 2 received packet 21 flow_id 1
+# link 2 sent packet 21 flow_id 1
+flow 1 send ping 36
+# link 1 received packet 36 flow_id 1
+# link 1 sent packet 32 flow_id 1
+# Middlebox received packet 22 flow_id 1
+#Middlebox send packet 22 flow_id 1
+# link 2 received packet 22 flow_id 1
+# link 2 sent packet 22 flow_id 1
+flow 1 send ping 37
+# link 1 received packet 37 flow_id 1
+# link 1 sent packet 33 flow_id 1
+# Middlebox received packet 23 flow_id 1
+#Middlebox send packet 23 flow_id 1
+# link 2 received packet 23 flow_id 1
+flow 1 send ping 38
+# link 1 received packet 38 flow_id 1
+# link 2 sent packet 23 flow_id 1
+# link 1 sent packet 34 flow_id 1
+flow 1 send ping 39
+# link 1 received packet 39 flow_id 1
+# Middlebox received packet 24 flow_id 1
+#Middlebox send packet 24 flow_id 1
+# link 2 received packet 24 flow_id 1
+# link 2 sent packet 24 flow_id 1
+# link 1 sent packet 35 flow_id 1
+flow 1 send ping 40
+# link 1 received packet 40 flow_id 1
+# Middlebox received packet 25 flow_id 1
+#Middlebox send packet 25 flow_id 1
+# link 2 received packet 25 flow_id 1
+# link 2 sent packet 25 flow_id 1
+flow 1 send ping 41
+# link 1 received packet 41 flow_id 1
+# link 1 sent packet 36 flow_id 1
+# Middlebox received packet 26 flow_id 1
+#Middlebox send packet 26 flow_id 1
+# link 2 received packet 26 flow_id 1
+# link 2 sent packet 26 flow_id 1
+flow 1 send ping 42
+# link 1 received packet 42 flow_id 1
+# link 1 sent packet 37 flow_id 1
+# Middlebox received packet 27 flow_id 1
+#Middlebox send packet 27 flow_id 1
+# link 2 received packet 27 flow_id 1
+# link 2 sent packet 27 flow_id 1
+flow 1 send ping 43
+# link 1 received packet 43 flow_id 1
+# link 1 sent packet 38 flow_id 1
+flow 1 received cwd 17
+# Middlebox received packet 28 flow_id 1
+#Middlebox send packet 28 flow_id 1
+# link 2 received packet 28 flow_id 1
+flow 1 send ping 44
+# link 1 received packet 44 flow_id 1
+# link 2 sent packet 28 flow_id 1
+# link 1 sent packet 39 flow_id 1
+flow 1 received cwd 18
+# Middlebox received packet 29 flow_id 1
+#Middlebox send packet 29 flow_id 1
+# link 2 received packet 29 flow_id 1
+# link 2 sent packet 29 flow_id 1
+# link 1 sent packet 40 flow_id 1
+flow 1 received cwd 19
+# Middlebox received packet 30 flow_id 1
+#Middlebox send packet 30 flow_id 1
+# link 2 received packet 30 flow_id 1
+# link 2 sent packet 30 flow_id 1
+# link 1 sent packet 41 flow_id 1
+flow 1 received cwd 20
+# Middlebox received packet 31 flow_id 1
+#Middlebox send packet 31 flow_id 1
+# link 2 received packet 31 flow_id 1
+# link 2 sent packet 31 flow_id 1
+# link 1 sent packet 42 flow_id 1
+flow 1 received cwd 21
+# Middlebox received packet 32 flow_id 1
+#Middlebox send packet 32 flow_id 1
+# link 2 received packet 32 flow_id 1
+# link 2 sent packet 32 flow_id 1
+# link 1 sent packet 43 flow_id 1
+flow 1 received cwd 22
+# Middlebox received packet 33 flow_id 1
+#Middlebox send packet 33 flow_id 1
+# link 2 received packet 33 flow_id 1
+# link 2 sent packet 33 flow_id 1
+# link 1 sent packet 44 flow_id 1
+flow 1 received cwd 23
+# Middlebox received packet 34 flow_id 1
+#Middlebox send packet 34 flow_id 1
+# link 2 received packet 34 flow_id 1
+# link 2 sent packet 34 flow_id 1
+flow 1 received cwd 24
+# Middlebox received packet 35 flow_id 1
+#Middlebox send packet 35 flow_id 1
+# link 2 received packet 35 flow_id 1
+# link 2 sent packet 35 flow_id 1
+flow 1 received cwd 25
+# Middlebox received packet 36 flow_id 1
+#Middlebox send packet 36 flow_id 1
+# link 2 received packet 36 flow_id 1
+# link 2 sent packet 36 flow_id 1
+flow 1 received cwd 26
+# Middlebox received packet 37 flow_id 1
+#Middlebox send packet 37 flow_id 1
+# link 2 received packet 37 flow_id 1
+# link 2 sent packet 37 flow_id 1
+flow 1 received cwd 27
+# Middlebox received packet 38 flow_id 1
+#Middlebox send packet 38 flow_id 1
+# link 2 received packet 38 flow_id 1
+# link 2 sent packet 38 flow_id 1
+flow 1 received cwd 28
+# Middlebox received packet 39 flow_id 1
+#Middlebox send packet 39 flow_id 1
+# link 2 received packet 39 flow_id 1
+# link 2 sent packet 39 flow_id 1
+flow 1 received cwd 29
+# Middlebox received packet 40 flow_id 1
+#Middlebox send packet 40 flow_id 1
+# link 2 received packet 40 flow_id 1
+# link 2 sent packet 40 flow_id 1
+flow 1 received cwd 30
+# Middlebox received packet 41 flow_id 1
+#Middlebox send packet 41 flow_id 1
+# link 2 received packet 41 flow_id 1
+# link 2 sent packet 41 flow_id 1
+flow 1 received cwd 31
+# Middlebox received packet 42 flow_id 1
+#Middlebox send packet 42 flow_id 1
+# link 2 received packet 42 flow_id 1
+# link 2 sent packet 42 flow_id 1
+flow 1 received cwd 32
+# Middlebox received packet 43 flow_id 1
+#Middlebox send packet 43 flow_id 1
+# link 2 received packet 43 flow_id 1
+# link 2 sent packet 43 flow_id 1
+flow 1 received cwd 33
+# Middlebox received packet 44 flow_id 1
+#Middlebox send packet 44 flow_id 1
+# link 2 received packet 44 flow_id 1
+# link 2 sent packet 44 flow_id 1
+flow 1 received cwd 34
+flow 1 received cwd 35
+flow 1 received cwd 36
+flow 1 received cwd 37
+flow 1 received cwd 38
+flow 1 received cwd 39
+flow 1 received cwd 40
+flow 1 received cwd 41
+flow 1 received cwd 42
+flow 1 received cwd 43
+flow 1 received cwd 44
+# Flow 2 new_rate (Mbps): 60.0 version 0 at time 0.2
+# Flow 2 new_rate (Mbps): 180.0 version 0 at time 0.4
+# Flow 1 is timeout at 2.0
+last_pong_received_time 0.002508
+last_recived_chunk_seq 14
+last_drop_time 0.002508
+last_drop_chunk_seq 15
+chunk_seq 45
+completed_chunk_offset 14
+received_pong 15
+resend_queue OrderedDict()
+cwnd 75
+ping_yet_unpong {15: <core.Packet object at 0x7f327d9b8250>, 16: <core.Packet object at 0x7f327d9e0760>, 17: <core.Packet object at 0x7f327d9e0c10>, 18: <core.Packet object at 0x7f327d9e0850>, 19: <core.Packet object at 0x7f327d9b8280>, 20: <core.Packet object at 0x7f327d9c8bb0>, 21: <core.Packet object at 0x7f327d9c8a90>, 22: <core.Packet object at 0x7f327d9b81c0>, 23: <core.Packet object at 0x7f327d9e0ac0>, 24: <core.Packet object at 0x7f327d6ac910>, 25: <core.Packet object at 0x7f327d9b82b0>, 26: <core.Packet object at 0x7f327d9e04c0>, 27: <core.Packet object at 0x7f327d9c8d00>, 28: <core.Packet object at 0x7f327d9e0fd0>, 29: <core.Packet object at 0x7f327d9c8c40>, 30: <core.Packet object at 0x7f327d9c8af0>, 31: <core.Packet object at 0x7f327d9e0880>, 32: <core.Packet object at 0x7f327d9c8f70>, 33: <core.Packet object at 0x7f327d9c8f10>, 34: <core.Packet object at 0x7f327d9c8f40>, 35: <core.Packet object at 0x7f327d9e0fa0>, 36: <core.Packet object at 0x7f327d9e08b0>, 37: <core.Packet object at 0x7f327d9c8b20>, 38: <core.Packet object at 0x7f327d9c8e50>, 39: <core.Packet object at 0x7f327d6acf70>, 40: <core.Packet object at 0x7f327d9e0730>, 41: <core.Packet object at 0x7f327d6acbe0>, 42: <core.Packet object at 0x7f327d9c8cd0>, 43: <core.Packet object at 0x7f327d9b8220>, 44: <core.Packet object at 0x7f327d9e0550>}
+sssthresh None
+cc_state 1
+total_lost 0
+####################
+self.net.link
+Priority 1:
+Priority 2:
+Priority 3:
+Priority 4:
+Priority 1:
+Priority 2:
+Priority 3:
+Priority 4:
+Priority 1:
+Priority 2:
+Priority 3:
+Priority 4:
+Priority 1:
+Priority 2:
+Priority 3:
+Priority 4:
+Priority 1:
+Priority 2:
+Priority 3:
+Priority 4:
+Priority 1:
+Priority 2:
+Priority 3:
+Priority 4:
+####################
+self.net.boxes
+Box ID: 1
+Chunk Key: (0, 15), Flow IDs: {1}
+Chunk Key: (0, 16), Flow IDs: {1}
+Chunk Key: (0, 17), Flow IDs: {1}
+Chunk Key: (0, 18), Flow IDs: {1}
+Chunk Key: (0, 19), Flow IDs: {1}
+Chunk Key: (0, 20), Flow IDs: {1}
+Chunk Key: (0, 21), Flow IDs: {1}
+Chunk Key: (0, 22), Flow IDs: {1}
+Chunk Key: (0, 23), Flow IDs: {1}
+Chunk Key: (0, 24), Flow IDs: {1}
+Chunk Key: (0, 25), Flow IDs: {1}
+Chunk Key: (0, 26), Flow IDs: {1}
+Chunk Key: (0, 27), Flow IDs: {1}
+Chunk Key: (0, 28), Flow IDs: {1}
+Chunk Key: (0, 29), Flow IDs: {1}
+Chunk Key: (0, 30), Flow IDs: {1}
+Chunk Key: (0, 31), Flow IDs: {1}
+Chunk Key: (0, 32), Flow IDs: {1}
+Chunk Key: (0, 33), Flow IDs: {1}
+Chunk Key: (0, 34), Flow IDs: {1}
+Chunk Key: (0, 35), Flow IDs: {1}
+Chunk Key: (0, 36), Flow IDs: {1}
+Chunk Key: (0, 37), Flow IDs: {1}
+Chunk Key: (0, 38), Flow IDs: {1}
+Chunk Key: (0, 39), Flow IDs: {1}
+Chunk Key: (0, 40), Flow IDs: {1}
+Chunk Key: (0, 41), Flow IDs: {1}
+Chunk Key: (0, 42), Flow IDs: {1}
+Chunk Key: (0, 43), Flow IDs: {1}
+Chunk Key: (0, 44), Flow IDs: {1}
+####################
+self.net.events
+flow 1 send ping 15
+# link 1 received packet 15 flow_id 1
+flow 1 send ping 16
+# link 1 received packet 16 flow_id 1
+# link 1 sent packet 15 flow_id 1
+flow 1 send ping 17
+# link 1 received packet 17 flow_id 1
+# link 1 sent packet 16 flow_id 1
+flow 1 send ping 18
+# link 1 received packet 18 flow_id 1
+# link 1 sent packet 17 flow_id 1
+flow 1 send ping 19
+# link 1 received packet 19 flow_id 1
+# link 1 sent packet 18 flow_id 1
+flow 1 send ping 20
+# link 1 received packet 20 flow_id 1
+# link 1 sent packet 19 flow_id 1
+flow 1 send ping 21
+# link 1 received packet 21 flow_id 1
+flow 1 send ping 22
+# link 1 received packet 22 flow_id 1
+# link 1 sent packet 20 flow_id 1
+flow 1 send ping 23
+# link 1 received packet 23 flow_id 1
+# link 1 sent packet 21 flow_id 1
+flow 1 send ping 24
+# link 1 received packet 24 flow_id 1
+# link 1 sent packet 22 flow_id 1
+flow 1 send ping 25
+# link 1 received packet 25 flow_id 1
+# link 1 sent packet 23 flow_id 1
+flow 1 send ping 26
+# link 1 received packet 26 flow_id 1
+# link 1 sent packet 24 flow_id 1
+flow 1 send ping 27
+# link 1 received packet 27 flow_id 1
+flow 1 send ping 28
+# link 1 received packet 28 flow_id 1
+# link 1 sent packet 25 flow_id 1
+# Middlebox received packet 15 flow_id 1
+#Middlebox send packet 15 flow_id 1
+# link 5 received packet 15 flow_id 1
+flow 1 send ping 29
+# link 1 received packet 29 flow_id 1
+# link 1 sent packet 26 flow_id 1
+# link 5 sent packet 15 flow_id 1
+# Middlebox received packet 16 flow_id 1
+#Middlebox send packet 16 flow_id 1
+# link 5 received packet 16 flow_id 1
+flow 1 send ping 30
+# link 1 received packet 30 flow_id 1
+# link 1 sent packet 27 flow_id 1
+flow 1 send ping 31
+# link 1 received packet 31 flow_id 1
+# link 5 sent packet 16 flow_id 1
+# Middlebox received packet 17 flow_id 1
+#Middlebox send packet 17 flow_id 1
+# link 5 received packet 17 flow_id 1
+# link 1 sent packet 28 flow_id 1
+flow 1 send ping 32
+# link 1 received packet 32 flow_id 1
+# link 5 sent packet 17 flow_id 1
+# Middlebox received packet 18 flow_id 1
+#Middlebox send packet 18 flow_id 1
+# link 5 received packet 18 flow_id 1
+# link 1 sent packet 29 flow_id 1
+flow 1 send ping 33
+# link 1 received packet 33 flow_id 1
+# link 5 sent packet 18 flow_id 1
+# Middlebox received packet 19 flow_id 1
+#Middlebox send packet 19 flow_id 1
+# link 5 received packet 19 flow_id 1
+flow 1 send ping 34
+# link 1 received packet 34 flow_id 1
+# link 1 sent packet 30 flow_id 1
+# link 5 sent packet 19 flow_id 1
+# Middlebox received packet 20 flow_id 1
+#Middlebox send packet 20 flow_id 1
+# link 5 received packet 20 flow_id 1
+flow 1 send ping 35
+# link 1 received packet 35 flow_id 1
+# link 1 sent packet 31 flow_id 1
+# link 5 sent packet 20 flow_id 1
+# Middlebox received packet 21 flow_id 1
+#Middlebox send packet 21 flow_id 1
+# link 5 received packet 21 flow_id 1
+flow 1 send ping 36
+# link 1 received packet 36 flow_id 1
+# link 1 sent packet 32 flow_id 1
+flow 1 send ping 37
+# link 1 received packet 37 flow_id 1
+# link 5 sent packet 21 flow_id 1
+# Middlebox received packet 22 flow_id 1
+#Middlebox send packet 22 flow_id 1
+# link 5 received packet 22 flow_id 1
+# link 1 sent packet 33 flow_id 1
+flow 1 send ping 38
+# link 1 received packet 38 flow_id 1
+# link 5 sent packet 22 flow_id 1
+# Middlebox received packet 23 flow_id 1
+#Middlebox send packet 23 flow_id 1
+# link 5 received packet 23 flow_id 1
+# link 1 sent packet 34 flow_id 1
+flow 1 send ping 39
+# link 1 received packet 39 flow_id 1
+# link 5 sent packet 23 flow_id 1
+# Middlebox received packet 24 flow_id 1
+#Middlebox send packet 24 flow_id 1
+# link 5 received packet 24 flow_id 1
+flow 1 send ping 40
+# link 1 received packet 40 flow_id 1
+# link 1 sent packet 35 flow_id 1
+# link 5 sent packet 24 flow_id 1
+# Middlebox received packet 25 flow_id 1
+#Middlebox send packet 25 flow_id 1
+# link 5 received packet 25 flow_id 1
+flow 1 send ping 41
+# link 1 received packet 41 flow_id 1
+# link 1 sent packet 36 flow_id 1
+# link 5 sent packet 25 flow_id 1
+# Middlebox received packet 26 flow_id 1
+#Middlebox send packet 26 flow_id 1
+# link 5 received packet 26 flow_id 1
+flow 1 send ping 42
+# link 1 received packet 42 flow_id 1
+flow 1 received ping 15
+flow 1  ack  15 drop
+# link 6 received packet 15 flow_id 1
+# link 1 sent packet 37 flow_id 1
+flow 1 send ping 43
+# link 1 received packet 43 flow_id 1
+# link 5 sent packet 26 flow_id 1
+# Middlebox received packet 27 flow_id 1
+#Middlebox send packet 27 flow_id 1
+# link 5 received packet 27 flow_id 1
+flow 1 received ping 16
+flow 1  ack  16 drop
+# link 6 received packet 16 flow_id 1
+# link 6 sent packet 15 flow_id 1
+# link 1 sent packet 38 flow_id 1
+flow 1 send ping 44
+# link 1 received packet 44 flow_id 1
+# link 5 sent packet 27 flow_id 1
+# Middlebox received packet 28 flow_id 1
+#Middlebox send packet 28 flow_id 1
+# link 5 received packet 28 flow_id 1
+flow 1 received ping 17
+flow 1  ack  17 drop
+# link 6 received packet 17 flow_id 1
+# link 6 sent packet 16 flow_id 1
+# link 1 sent packet 39 flow_id 1
+# link 5 sent packet 28 flow_id 1
+# Middlebox received packet 29 flow_id 1
+#Middlebox send packet 29 flow_id 1
+# link 5 received packet 29 flow_id 1
+# link 6 sent packet 17 flow_id 1
+flow 1 received ping 18
+flow 1  ack  18 drop
+# link 6 received packet 18 flow_id 1
+# link 1 sent packet 40 flow_id 1
+# link 5 sent packet 29 flow_id 1
+# Middlebox received packet 30 flow_id 1
+#Middlebox send packet 30 flow_id 1
+# link 5 received packet 30 flow_id 1
+flow 1 received ping 19
+flow 1  ack  19 drop
+# link 6 received packet 19 flow_id 1
+# link 6 sent packet 18 flow_id 1
+# link 1 sent packet 41 flow_id 1
+# link 5 sent packet 30 flow_id 1
+# Middlebox received packet 31 flow_id 1
+#Middlebox send packet 31 flow_id 1
+# link 5 received packet 31 flow_id 1
+flow 1 received ping 20
+flow 1  ack  20 drop
+# link 6 sent packet 19 flow_id 1
+# link 6 received packet 20 flow_id 1
+# link 1 sent packet 42 flow_id 1
+# link 5 sent packet 31 flow_id 1
+# Middlebox received packet 32 flow_id 1
+#Middlebox send packet 32 flow_id 1
+# link 5 received packet 32 flow_id 1
+flow 1 received ping 21
+flow 1  ack  21 drop
+# link 6 received packet 21 flow_id 1
+# link 6 sent packet 20 flow_id 1
+# link 1 sent packet 43 flow_id 1
+# link 5 sent packet 32 flow_id 1
+# Middlebox received packet 33 flow_id 1
+#Middlebox send packet 33 flow_id 1
+# link 5 received packet 33 flow_id 1
+flow 1 received ping 22
+flow 1  ack  22 drop
+# link 6 sent packet 21 flow_id 1
+# link 6 received packet 22 flow_id 1
+# link 1 sent packet 44 flow_id 1
+# link 5 sent packet 33 flow_id 1
+# Middlebox received packet 34 flow_id 1
+#Middlebox send packet 34 flow_id 1
+# link 5 received packet 34 flow_id 1
+flow 1 received ping 23
+flow 1  ack  23 drop
+# link 6 received packet 23 flow_id 1
+# link 6 sent packet 22 flow_id 1
+# link 5 sent packet 34 flow_id 1
+# Middlebox received packet 35 flow_id 1
+#Middlebox send packet 35 flow_id 1
+# link 5 received packet 35 flow_id 1
+flow 1 received ping 24
+flow 1  ack  24 drop
+# link 6 sent packet 23 flow_id 1
+# link 6 received packet 24 flow_id 1
+# link 5 sent packet 35 flow_id 1
+# Middlebox received packet 36 flow_id 1
+#Middlebox send packet 36 flow_id 1
+# link 5 received packet 36 flow_id 1
+flow 1 received ping 25
+flow 1  ack  25 drop
+# link 6 received packet 25 flow_id 1
+# link 6 sent packet 24 flow_id 1
+# link 5 sent packet 36 flow_id 1
+# Middlebox received packet 37 flow_id 1
+#Middlebox send packet 37 flow_id 1
+# link 5 received packet 37 flow_id 1
+flow 1 received ping 26
+flow 1  ack  26 drop
+# link 6 received packet 26 flow_id 1
+# link 6 sent packet 25 flow_id 1
+# Middlebox received packet 15 flow_id 1
+#Middlebox send packet 15 flow_id 1
+# link 2 received packet 15 flow_id 1
+# link 5 sent packet 37 flow_id 1
+# Middlebox received packet 38 flow_id 1
+#Middlebox send packet 38 flow_id 1
+# link 5 received packet 38 flow_id 1
+# link 6 sent packet 26 flow_id 1
+flow 1 received ping 27
+flow 1  ack  27 drop
+# link 6 received packet 27 flow_id 1
+# link 2 sent packet 15 flow_id 1
+# Middlebox received packet 16 flow_id 1
+#Middlebox send packet 16 flow_id 1
+# link 2 received packet 16 flow_id 1
+# link 5 sent packet 38 flow_id 1
+# Middlebox received packet 39 flow_id 1
+#Middlebox send packet 39 flow_id 1
+# link 5 received packet 39 flow_id 1
+flow 1 received ping 28
+flow 1  ack  28 drop
+# link 6 received packet 28 flow_id 1
+# link 6 sent packet 27 flow_id 1
+# link 2 sent packet 16 flow_id 1
+# Middlebox received packet 17 flow_id 1
+#Middlebox send packet 17 flow_id 1
+# link 2 received packet 17 flow_id 1
+# link 5 sent packet 39 flow_id 1
+# Middlebox received packet 40 flow_id 1
+#Middlebox send packet 40 flow_id 1
+# link 5 received packet 40 flow_id 1
+flow 1 received ping 29
+flow 1  ack  29 drop
+# link 6 sent packet 28 flow_id 1
+# link 6 received packet 29 flow_id 1
+# link 2 sent packet 17 flow_id 1
+# Middlebox received packet 18 flow_id 1
+#Middlebox send packet 18 flow_id 1
+# link 2 received packet 18 flow_id 1
+# link 5 sent packet 40 flow_id 1
+# Middlebox received packet 41 flow_id 1
+#Middlebox send packet 41 flow_id 1
+# link 5 received packet 41 flow_id 1
+flow 1 received ping 30
+flow 1  ack  30 drop
+# link 6 received packet 30 flow_id 1
+# link 6 sent packet 29 flow_id 1
+# link 2 sent packet 18 flow_id 1
+# Middlebox received packet 19 flow_id 1
+#Middlebox send packet 19 flow_id 1
+# link 2 received packet 19 flow_id 1
+# link 5 sent packet 41 flow_id 1
+# Middlebox received packet 42 flow_id 1
+#Middlebox send packet 42 flow_id 1
+# link 5 received packet 42 flow_id 1
+flow 1 received ping 31
+flow 1  ack  31 drop
+# link 6 sent packet 30 flow_id 1
+# link 6 received packet 31 flow_id 1
+# link 2 sent packet 19 flow_id 1
+# Middlebox received packet 20 flow_id 1
+#Middlebox send packet 20 flow_id 1
+# link 2 received packet 20 flow_id 1
+# link 5 sent packet 42 flow_id 1
+# Middlebox received packet 43 flow_id 1
+#Middlebox send packet 43 flow_id 1
+# link 5 received packet 43 flow_id 1
+flow 1 received ping 32
+flow 1  ack  32 drop
+# link 6 received packet 32 flow_id 1
+# link 6 sent packet 31 flow_id 1
+# link 2 sent packet 20 flow_id 1
+# Middlebox received packet 21 flow_id 1
+#Middlebox send packet 21 flow_id 1
+# link 2 received packet 21 flow_id 1
+# link 5 sent packet 43 flow_id 1
+# Middlebox received packet 44 flow_id 1
+#Middlebox send packet 44 flow_id 1
+# link 5 received packet 44 flow_id 1
+flow 1 received ping 33
+flow 1  ack  33 drop
+# link 6 sent packet 32 flow_id 1
+# link 6 received packet 33 flow_id 1
+# link 2 sent packet 21 flow_id 1
+# Middlebox received packet 22 flow_id 1
+#Middlebox send packet 22 flow_id 1
+# link 2 received packet 22 flow_id 1
+# link 5 sent packet 44 flow_id 1
+flow 1 received ping 34
+flow 1  ack  34 drop
+# link 6 received packet 34 flow_id 1
+# link 6 sent packet 33 flow_id 1
+# link 2 sent packet 22 flow_id 1
+# Middlebox received packet 23 flow_id 1
+#Middlebox send packet 23 flow_id 1
+# link 2 received packet 23 flow_id 1
+flow 1 received ping 35
+flow 1  ack  35 drop
+# link 6 received packet 35 flow_id 1
+# link 6 sent packet 34 flow_id 1
+# link 2 sent packet 23 flow_id 1
+# Middlebox received packet 24 flow_id 1
+#Middlebox send packet 24 flow_id 1
+# link 2 received packet 24 flow_id 1
+# link 6 sent packet 35 flow_id 1
+flow 1 received ping 36
+flow 1  ack  36 drop
+# link 6 received packet 36 flow_id 1
+# link 2 sent packet 24 flow_id 1
+# Middlebox received packet 25 flow_id 1
+#Middlebox send packet 25 flow_id 1
+# link 2 received packet 25 flow_id 1
+flow 1 received ping 37
+flow 1  ack  37 drop
+# link 6 received packet 37 flow_id 1
+# link 6 sent packet 36 flow_id 1
+# link 2 sent packet 25 flow_id 1
+# Middlebox received packet 26 flow_id 1
+#Middlebox send packet 26 flow_id 1
+# link 2 received packet 26 flow_id 1
+flow 1 received pong 15
+flow 1 received ping 38
+flow 1  ack  38 drop
+# link 6 sent packet 37 flow_id 1
+flow 1 send ping 45
+# link 1 received packet 45 flow_id 1
+# link 6 received packet 38 flow_id 1
+# link 2 sent packet 26 flow_id 1
+# Middlebox received packet 27 flow_id 1
+#Middlebox send packet 27 flow_id 1
+# link 2 received packet 27 flow_id 1
+flow 1 received pong 16
+flow 1 received ping 39
+flow 1  ack  39 drop
+# link 6 received packet 39 flow_id 1
+# link 1 sent packet 45 flow_id 1
+# link 6 sent packet 38 flow_id 1
+# link 2 sent packet 27 flow_id 1
+# Middlebox received packet 28 flow_id 1
+#Middlebox send packet 28 flow_id 1
+# link 2 received packet 28 flow_id 1
+flow 1 received pong 17
+flow 1 received ping 40
+flow 1  ack  40 drop
+# link 6 sent packet 39 flow_id 1
+# link 6 received packet 40 flow_id 1
+# link 2 sent packet 28 flow_id 1
+# Middlebox received packet 29 flow_id 1
+#Middlebox send packet 29 flow_id 1
+# link 2 received packet 29 flow_id 1
+flow 1 received pong 18
+flow 1 received ping 41
+flow 1  ack  41 drop
+# link 6 received packet 41 flow_id 1
+# link 6 sent packet 40 flow_id 1
+# link 2 sent packet 29 flow_id 1
+# Middlebox received packet 30 flow_id 1
+#Middlebox send packet 30 flow_id 1
+# link 2 received packet 30 flow_id 1
+flow 1 received pong 19
+flow 1 received ping 42
+flow 1  ack  42 drop
+# link 6 sent packet 41 flow_id 1
+# link 6 received packet 42 flow_id 1
+# link 2 sent packet 30 flow_id 1
+# Middlebox received packet 31 flow_id 1
+#Middlebox send packet 31 flow_id 1
+# link 2 received packet 31 flow_id 1
+flow 1 received pong 20
+flow 1 received ping 43
+flow 1  ack  43 drop
+# link 6 received packet 43 flow_id 1
+# link 6 sent packet 42 flow_id 1
+# link 2 sent packet 31 flow_id 1
+# Middlebox received packet 32 flow_id 1
+#Middlebox send packet 32 flow_id 1
+# link 2 received packet 32 flow_id 1
+flow 1 received pong 21
+flow 1 received ping 44
+flow 1  ack  44 drop
+# link 6 received packet 44 flow_id 1
+# link 6 sent packet 43 flow_id 1
+# link 2 sent packet 32 flow_id 1
+# Middlebox received packet 33 flow_id 1
+#Middlebox send packet 33 flow_id 1
+# link 2 received packet 33 flow_id 1
+flow 1 received pong 22
+# link 6 sent packet 44 flow_id 1
+# link 2 sent packet 33 flow_id 1
+# Middlebox received packet 34 flow_id 1
+#Middlebox send packet 34 flow_id 1
+# link 2 received packet 34 flow_id 1
+flow 1 received pong 23
+# link 2 sent packet 34 flow_id 1
+# Middlebox received packet 35 flow_id 1
+#Middlebox send packet 35 flow_id 1
+# link 2 received packet 35 flow_id 1
+flow 1 received pong 24
+# link 2 sent packet 35 flow_id 1
+# Middlebox received packet 36 flow_id 1
+#Middlebox send packet 36 flow_id 1
+# link 2 received packet 36 flow_id 1
+flow 1 received pong 25
+# link 2 sent packet 36 flow_id 1
+# Middlebox received packet 37 flow_id 1
+#Middlebox send packet 37 flow_id 1
+# link 2 received packet 37 flow_id 1
+flow 1 received pong 26
+# link 2 sent packet 37 flow_id 1
+# Middlebox received packet 38 flow_id 1
+#Middlebox send packet 38 flow_id 1
+# Middlebox received packet 45 flow_id 1
+#Middlebox send packet 45 flow_id 1
+# link 2 received packet 38 flow_id 1
+# link 2 received packet 45 flow_id 1
+flow 1 received pong 27
+# link 2 sent packet 38 flow_id 1
+# Middlebox received packet 39 flow_id 1
+#Middlebox send packet 39 flow_id 1
+# link 2 received packet 39 flow_id 1
+# link 2 sent packet 45 flow_id 1
+flow 1 received pong 28
+# Middlebox received packet 40 flow_id 1
+#Middlebox send packet 40 flow_id 1
+# link 2 received packet 40 flow_id 1
+# link 2 sent packet 39 flow_id 1
+flow 1 received pong 29
+# Middlebox received packet 41 flow_id 1
+#Middlebox send packet 41 flow_id 1
+# link 2 received packet 41 flow_id 1
+# link 2 sent packet 40 flow_id 1
+flow 1 received pong 30
+# Middlebox received packet 42 flow_id 1
+#Middlebox send packet 42 flow_id 1
+# link 2 received packet 42 flow_id 1
+# link 2 sent packet 41 flow_id 1
+flow 1 received pong 31
+# Middlebox received packet 43 flow_id 1
+#Middlebox send packet 43 flow_id 1
+# link 2 received packet 43 flow_id 1
+# link 2 sent packet 42 flow_id 1
+flow 1 received pong 32
+# Middlebox received packet 44 flow_id 1
+#Middlebox send packet 44 flow_id 1
+# link 2 received packet 44 flow_id 1
+# link 2 sent packet 43 flow_id 1
+flow 1 received pong 33
+# link 2 sent packet 44 flow_id 1
+flow 1 received pong 34
+flow 1 received pong 35
+flow 1 received pong 36
+flow 1 received pong 37
+flow 1 received pong 38
+flow 1 received cwd 45
+flow 1 send ping 46
+# link 1 received packet 46 flow_id 1
+flow 1 received pong 39
+flow 1 send ping 47
+# link 1 received packet 47 flow_id 1
+# link 1 sent packet 46 flow_id 1
+flow 1 received pong 40
+# link 1 sent packet 47 flow_id 1
+flow 1 received pong 41
+flow 1 received pong 42
+flow 1 received pong 43
+flow 1 received pong 44
+# Middlebox received packet 46 flow_id 1
+#Middlebox send packet 46 flow_id 1
+# link 2 received packet 46 flow_id 1
+# link 2 sent packet 46 flow_id 1
+# Middlebox received packet 47 flow_id 1
+#Middlebox send packet 47 flow_id 1
+# link 2 received packet 47 flow_id 1
+# link 2 sent packet 47 flow_id 1
+flow 1 received cwd 46
+flow 1 send ping 48
+# link 1 received packet 48 flow_id 1
+flow 1 received cwd 47
+flow 1 send ping 49
+# link 1 received packet 49 flow_id 1
+# link 1 sent packet 48 flow_id 1
+flow 1 send ping 50
+# link 1 received packet 50 flow_id 1
+# link 1 sent packet 49 flow_id 1
+# link 1 sent packet 50 flow_id 1
+# Middlebox received packet 48 flow_id 1
+#Middlebox send packet 48 flow_id 1
+# link 2 received packet 48 flow_id 1
+# link 2 sent packet 48 flow_id 1
+# Middlebox received packet 49 flow_id 1
+#Middlebox send packet 49 flow_id 1
+# link 2 received packet 49 flow_id 1
+# link 2 sent packet 49 flow_id 1
+# Middlebox received packet 50 flow_id 1
+#Middlebox send packet 50 flow_id 1
+# link 2 received packet 50 flow_id 1
+# link 2 sent packet 50 flow_id 1
+flow 1 received cwd 48
+flow 1 send ping 51
+# link 1 received packet 51 flow_id 1
+flow 1 received cwd 49
+flow 1 send ping 52
+# link 1 received packet 52 flow_id 1
+# link 1 sent packet 51 flow_id 1
+flow 1 received cwd 50
+flow 1 send ping 53
+# link 1 received packet 53 flow_id 1
+# link 1 sent packet 52 flow_id 1
+flow 1 send ping 54
+# link 1 received packet 54 flow_id 1
+# link 1 sent packet 53 flow_id 1
+flow 1 send ping 55
+# link 1 received packet 55 flow_id 1
+# link 1 sent packet 54 flow_id 1
+flow 1 send ping 56
+# link 1 received packet 56 flow_id 1
+# link 1 sent packet 55 flow_id 1
+# link 1 sent packet 56 flow_id 1
+# Middlebox received packet 51 flow_id 1
+#Middlebox send packet 51 flow_id 1
+# link 2 received packet 51 flow_id 1
+# link 2 sent packet 51 flow_id 1
+# Middlebox received packet 52 flow_id 1
+#Middlebox send packet 52 flow_id 1
+# link 2 received packet 52 flow_id 1
+# link 2 sent packet 52 flow_id 1
+# Middlebox received packet 53 flow_id 1
+#Middlebox send packet 53 flow_id 1
+# link 2 received packet 53 flow_id 1
+# link 2 sent packet 53 flow_id 1
+# Middlebox received packet 54 flow_id 1
+#Middlebox send packet 54 flow_id 1
+# link 2 received packet 54 flow_id 1
+# link 2 sent packet 54 flow_id 1
+# Middlebox received packet 55 flow_id 1
+#Middlebox send packet 55 flow_id 1
+# link 2 received packet 55 flow_id 1
+# link 2 sent packet 55 flow_id 1
+# Middlebox received packet 56 flow_id 1
+#Middlebox send packet 56 flow_id 1
+# link 2 received packet 56 flow_id 1
+# link 2 sent packet 56 flow_id 1
+flow 1 received cwd 51
+flow 1 send ping 57
+# link 1 received packet 57 flow_id 1
+flow 1 received cwd 52
+flow 1 send ping 58
+# link 1 received packet 58 flow_id 1
+# link 1 sent packet 57 flow_id 1
+flow 1 received cwd 53
+flow 1 send ping 59
+# link 1 received packet 59 flow_id 1
+# link 1 sent packet 58 flow_id 1
+flow 1 send ping 60
+# link 1 received packet 60 flow_id 1
+flow 1 received cwd 54
+# link 1 sent packet 59 flow_id 1
+flow 1 send ping 61
+# link 1 received packet 61 flow_id 1
+flow 1 received cwd 55
+# link 1 sent packet 60 flow_id 1
+flow 1 send ping 62
+# link 1 received packet 62 flow_id 1
+flow 1 received cwd 56
+# link 1 sent packet 61 flow_id 1
+flow 1 send ping 63
+# link 1 received packet 63 flow_id 1
+flow 1 send ping 64
+# link 1 received packet 64 flow_id 1
+# link 1 sent packet 62 flow_id 1
+flow 1 send ping 65
+# link 1 received packet 65 flow_id 1
+# link 1 sent packet 63 flow_id 1
+flow 1 send ping 66
+# link 1 received packet 66 flow_id 1
+# link 1 sent packet 64 flow_id 1
+flow 1 send ping 67
+# link 1 received packet 67 flow_id 1
+# link 1 sent packet 65 flow_id 1
+flow 1 send ping 68
+# link 1 received packet 68 flow_id 1
+# link 1 sent packet 66 flow_id 1
+# link 1 sent packet 67 flow_id 1
+# Middlebox received packet 57 flow_id 1
+#Middlebox send packet 57 flow_id 1
+# link 2 received packet 57 flow_id 1
+# link 2 sent packet 57 flow_id 1
+# link 1 sent packet 68 flow_id 1
+# Middlebox received packet 58 flow_id 1
+#Middlebox send packet 58 flow_id 1
+# link 2 received packet 58 flow_id 1
+# link 2 sent packet 58 flow_id 1
+# Middlebox received packet 59 flow_id 1
+#Middlebox send packet 59 flow_id 1
+# link 2 received packet 59 flow_id 1
+# link 2 sent packet 59 flow_id 1
+# Middlebox received packet 60 flow_id 1
+#Middlebox send packet 60 flow_id 1
+# link 2 received packet 60 flow_id 1
+# link 2 sent packet 60 flow_id 1
+# Middlebox received packet 61 flow_id 1
+#Middlebox send packet 61 flow_id 1
+# link 2 received packet 61 flow_id 1
+# link 2 sent packet 61 flow_id 1
+# Middlebox received packet 62 flow_id 1
+#Middlebox send packet 62 flow_id 1
+# link 2 received packet 62 flow_id 1
+# link 2 sent packet 62 flow_id 1
+# Middlebox received packet 63 flow_id 1
+#Middlebox send packet 63 flow_id 1
+# link 2 received packet 63 flow_id 1
+# link 2 sent packet 63 flow_id 1
+# Middlebox received packet 64 flow_id 1
+#Middlebox send packet 64 flow_id 1
+# link 2 received packet 64 flow_id 1
+# link 2 sent packet 64 flow_id 1
+# Middlebox received packet 65 flow_id 1
+#Middlebox send packet 65 flow_id 1
+# link 2 received packet 65 flow_id 1
+# link 2 sent packet 65 flow_id 1
+# Middlebox received packet 66 flow_id 1
+#Middlebox send packet 66 flow_id 1
+# link 2 received packet 66 flow_id 1
+# link 2 sent packet 66 flow_id 1
+# Middlebox received packet 67 flow_id 1
+#Middlebox send packet 67 flow_id 1
+# link 2 received packet 67 flow_id 1
+# link 2 sent packet 67 flow_id 1
+flow 1 received cwd 57
+# Middlebox received packet 68 flow_id 1
+#Middlebox send packet 68 flow_id 1
+# link 2 received packet 68 flow_id 1
+flow 1 send ping 69
+# link 1 received packet 69 flow_id 1
+# link 2 sent packet 68 flow_id 1
+flow 1 received cwd 58
+flow 1 send ping 70
+# link 1 received packet 70 flow_id 1
+# link 1 sent packet 69 flow_id 1
+flow 1 received cwd 59
+flow 1 send ping 71
+# link 1 received packet 71 flow_id 1
+# link 1 sent packet 70 flow_id 1
+flow 1 send ping 72
+# link 1 received packet 72 flow_id 1
+flow 1 received cwd 60
+# link 1 sent packet 71 flow_id 1
+flow 1 send ping 73
+# link 1 received packet 73 flow_id 1
+flow 1 received cwd 61
+# link 1 sent packet 72 flow_id 1
+flow 1 send ping 74
+# link 1 received packet 74 flow_id 1
+flow 1 received cwd 62
+# link 1 sent packet 73 flow_id 1
+flow 1 received cwd 63
+# link 1 sent packet 74 flow_id 1
+flow 1 received cwd 64
+flow 1 received cwd 65
+flow 1 received cwd 66
+flow 1 received cwd 67
+flow 1 received cwd 68
+# Middlebox received packet 69 flow_id 1
+#Middlebox send packet 69 flow_id 1
+# link 2 received packet 69 flow_id 1
+# link 2 sent packet 69 flow_id 1
+# Middlebox received packet 70 flow_id 1
+#Middlebox send packet 70 flow_id 1
+# link 2 received packet 70 flow_id 1
+# link 2 sent packet 70 flow_id 1
+# Middlebox received packet 71 flow_id 1
+#Middlebox send packet 71 flow_id 1
+# link 2 received packet 71 flow_id 1
+# link 2 sent packet 71 flow_id 1
+# Middlebox received packet 72 flow_id 1
+#Middlebox send packet 72 flow_id 1
+# link 2 received packet 72 flow_id 1
+# link 2 sent packet 72 flow_id 1
+# Middlebox received packet 73 flow_id 1
+#Middlebox send packet 73 flow_id 1
+# link 2 received packet 73 flow_id 1
+# link 2 sent packet 73 flow_id 1
+# Middlebox received packet 74 flow_id 1
+#Middlebox send packet 74 flow_id 1
+# link 2 received packet 74 flow_id 1
+# link 2 sent packet 74 flow_id 1
+flow 1 received cwd 69
+flow 1 received cwd 70
+flow 1 received cwd 71
+flow 1 received cwd 72
+flow 1 received cwd 73
+flow 1 received cwd 74
+edge:meta,Ssum,last_aggragated_num

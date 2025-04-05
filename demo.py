@@ -10,10 +10,10 @@ import math
 
 parser = argparse.ArgumentParser(description='hello.')
 parser.add_argument('--init-sending-rate-pps', type=int, default=10)
-parser.add_argument('--num', type=int, required=False, default=5,help='gradient_num')
+parser.add_argument('--num', type=int, required=False, default=5000,help='gradient_num')
 parser.add_argument('--jobnum', type=int, required=False, default=1,help='jobnum')
 parser.add_argument('--dnum', type=int, required=False, default=2,help='DeviceNum')
-parser.add_argument('--FCLS', type=str, required=False, default='DCTCP',help='FCLS')
+parser.add_argument('--FCLS', type=str, required=False, default='INA_PAATP',help='FCLS')
 args = parser.parse_args()
 
 
@@ -121,8 +121,22 @@ class Demo(object):
                     stats=[],
                 )
                 self.flows.append(f)
-            
         
+
+
+        backflow = DCTCP(
+                path=[self.links[0],self.boxes[0] ,self.links[-2], ], 
+                rpath=[self.links[-1],self.boxes[0] ,self.links[1], ],
+                nic_rate_bps=0.2*bw_bps, #2*
+                job_id= -1,
+                #start_time=0, 
+                #expired_time=20,
+                total_chunk_num=total_chunk_num,
+                timeout_threshold=1,
+                init_cwnd=15,
+                stats=[],
+                )
+        self.flows.append(backflow)
         self.net = Network(links=self.links,boxes=self.boxes, flows=self.flows)
         for i in range(JobNum):
             flows_for_job_i = [f for f in self.net.named_flows.values() if f.job_id == i ]
@@ -136,7 +150,7 @@ class Demo(object):
         #PAATP: ACEN
         #CA: the total aggregation throughput ,equal to the sum of most stalled workers' rate of all jobs.
         ideal_rtt =4* INA_PAATP.PING_PKT_SIZE_IN_BITS / bw_bps
-        most_stalled_rate = 0.1*bw_bps
+        most_stalled_rate = 0.6*bw_bps
         CA = most_stalled_rate * ideal_rtt /INA_PAATP.PING_PKT_SIZE_IN_BITS * JobNum
         CA_and_N = CA + JobNum
         
@@ -154,8 +168,8 @@ class Demo(object):
             # Event(0.0, self.flows[0], 'update_rate', params=dict(version=0, new_rate_bps = most_stalled_rate)),
             # Event(0.4, self.flows[0], 'update_rate', params=dict(version=0, new_rate_bps=bw_bps * 2)),
 
-            Event(0.2, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=bw_bps * 0.6)),
-            Event(0.4, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=1.8*bw_bps )),
+            # Event(0.2, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=bw_bps * 0.6)),
+            # Event(0.4, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=1.8*bw_bps )),
  
 
             # Event(0.5, self.flows[0], 'update_rate', params=dict(version=0, new_rate_bps=2*bw_bps )),
