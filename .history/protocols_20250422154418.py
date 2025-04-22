@@ -404,7 +404,7 @@ class PingPongFlow(Flow):
 
         if self.TYPE == PAATP.TYPE:
             stat["last_aack"] = self.last_recived_chunk_seq
-            stat["last_cwd"] = self.last_cwd_received_seq
+           
             stat["snd_nxt"] = self.snd_nxt
             stat["recieved_cwd"] = self.received_cwd
         if self.TYPE == Muilt.TYPE:

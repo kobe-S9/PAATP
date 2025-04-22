@@ -58,7 +58,6 @@ class PingPongFlow(Flow):
         self.dev_rtt = None
         self.rtt_alpha = self.params.get('rtt_alpha', 0.9)
         self.rtt_beta = self.params.get('rtt_beta', 0.9)
-        self.sub_rtt = None
 
         self.ecn_enabled = False
 
@@ -410,7 +409,6 @@ class PingPongFlow(Flow):
         if self.TYPE == Muilt.TYPE:
             stat["recieved_cwd"] = self.received_cwd
             stat["last_aack"] = self.last_recived_chunk_seq
-            stat["last_cwd"] = self.last_cwd_received_seq
             stat["awd"] = self.awd
             stat["quantity"] = self.Q
             
@@ -423,8 +421,6 @@ class PingPongFlow(Flow):
                 stat['qr_{0}'.format(i)] = obj.qdisc.get_occupation_in_bits()/self.PONG_PKT_SIZE_IN_BITS
         if self.est_rtt is not None :
             mi_duration = 2*self.est_rtt
-            if self.sub_rtt is not None:
-                mi_duration = 5 * self.sub_rtt
             cur_time = self.get_cur_time()
             if self.last_throughput_check_time is None:
                 self.last_throughput_check_time = cur_time
@@ -433,11 +429,11 @@ class PingPongFlow(Flow):
                 stat['throughput_Mbps'] = (self.completed_chunk_offset - self.last_checked_completed_chunk_offset) / mi_duration  * self.PONG_PKT_SIZE_IN_BITS / 1e6
                 stat["received_pong_for_throughput"] = self.received_pong_for_throughput/ mi_duration  * self.PONG_PKT_SIZE_IN_BITS / 1e6
                 self.received_pong_for_throughput = 0
+                stat["received_cwd_for_throughput"] = self.received_cwd_for_throughput/ mi_duration  * self.PING_PKT_SIZE_IN_BITS / 1e6
+                self.received_cwd_for_throughput = 0
                 self.last_throughput_check_time = cur_time
                 self.last_checked_completed_chunk_offset = self.completed_chunk_offset
                 if self.TYPE == Muilt.TYPE:
-                    stat["received_cwd_for_throughput"] = self.received_cwd_for_throughput/ mi_duration  * self.CWD_PKT_SIZE_IN_BITS / 1e6
-                    self.received_cwd_for_throughput = 0
                     stat["send_for_throughput"] = self.send_for_throughput/ mi_duration  * self.PING_PKT_SIZE_IN_BITS / 1e6
                     self.send_for_throughput = 0
 
@@ -1188,7 +1184,7 @@ class PAATP(ATP):
 class Muilt(PAATP):
     TYPE = 'Muilt'
 
-    PING_PKT_SIZE_IN_BITS = 8 * 122
+    PING_PKT_SIZE_IN_BITS = 8 * 112
     # PING_PKT_SIZE_IN_BITS = 8 * 300
     PONG_PKT_SIZE_IN_BITS = 8 * 300
     CWD_PKT_SIZE_IN_BITS = 8 * 62
@@ -1204,11 +1200,7 @@ class Muilt(PAATP):
     type_ab = 'AB'
     type_abc = 'ABC'
     type_abcd = 'ABCD'
-     
-    @classmethod 
-    def set_pong_pkt_size(cls, q):
-        cls.PONG_PKT_SIZE_IN_BITS = 8 * (62+60 * q)
-        return []
+
 
 
     def start(self):

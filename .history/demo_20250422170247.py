@@ -178,7 +178,7 @@ class Demo(object):
         print("self.Eta:",Eta)
         print("SZX ACEN line:",self.net.line)
 
-        q = 4
+        q = 2
         Muilt.set_pong_pkt_size(q)
 
         events = [

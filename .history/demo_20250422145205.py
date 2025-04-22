@@ -165,7 +165,7 @@ class Demo(object):
         #PAATP: ACEN
         #CA: the total aggregation throughput ,equal to the sum of most stalled workers' rate of all jobs.
         ideal_rtt =4* PAATP.PING_PKT_SIZE_IN_BITS / bw_bps
-        most_stalled_rate = 0.5*bw_bps
+        most_stalled_rate = 0.6*bw_bps
         CA = most_stalled_rate * ideal_rtt /PAATP.PING_PKT_SIZE_IN_BITS * JobNum
         CA_and_N = CA + JobNum
         
@@ -178,13 +178,10 @@ class Demo(object):
         print("self.Eta:",Eta)
         print("SZX ACEN line:",self.net.line)
 
-        q = 4
-        Muilt.set_pong_pkt_size(q)
-
         events = [
          
-            Event(0.0, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps = most_stalled_rate)),
-            Event(0.0, self.flows[0], 'update_Q', params=dict(Q=q)),
+            # Event(0.0, self.flows[0], 'update_rate', params=dict(version=0, new_rate_bps = most_stalled_rate)),
+            # Event(0.0, self.flows[1], 'update_Q', params=dict(Q=2)),
 
             # Event(0.2, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=bw_bps * 0.6)),
             # Event(0.4, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=1.8*bw_bps )),
@@ -228,7 +225,7 @@ class Demo(object):
                         spec_set.add(k)
                     else:  # 只有数值得属性需要添加时间信息
                         plot_data[k][f.id].append((t, v))
-        # print(list(plot_data))
+        print(list(plot_data))
         for k in plot_data:
             #if 'ecn' in k:
             #    continue
@@ -265,13 +262,12 @@ if __name__ == '__main__':
         inst.runsim()
 
         print()
+        #print(inst.stat)
 
         for f in inst.flows:
             print('# Flow', f.__class__.__name__, f.id, "sent ping, received ping, sent pong, recevied pong", f.sent_ping, f.received_ping, f.sent_pong, f.received_pong, f.last_pong_received_time)
             if f.TYPE == 'Muilt':
                 print('flow.cwd', f.received_cwd)
-                print('flow.ping_pkt_size',f.PING_PKT_SIZE_IN_BITS)
-                print('flow.pong_pkt_size',f.PONG_PKT_SIZE_IN_BITS)
             # else:
             #     print(f.TYPE)
         inst.plot()

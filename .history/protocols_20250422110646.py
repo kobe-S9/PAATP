@@ -42,7 +42,6 @@ class PingPongFlow(Flow):
         self.received_ping = 0
         self.received_pong = 0
         self.received_pong_for_throughput =0
-        self.send_for_throughput = 0
 
         self.received_pong_from_last_timeout = 0
         
@@ -58,7 +57,6 @@ class PingPongFlow(Flow):
         self.dev_rtt = None
         self.rtt_alpha = self.params.get('rtt_alpha', 0.9)
         self.rtt_beta = self.params.get('rtt_beta', 0.9)
-        self.sub_rtt = None
 
         self.ecn_enabled = False
 
@@ -409,11 +407,8 @@ class PingPongFlow(Flow):
             stat["recieved_cwd"] = self.received_cwd
         if self.TYPE == Muilt.TYPE:
             stat["recieved_cwd"] = self.received_cwd
-            stat["last_aack"] = self.last_recived_chunk_seq
-            stat["last_cwd"] = self.last_cwd_received_seq
             stat["awd"] = self.awd
             stat["quantity"] = self.Q
-            
 
         for i, obj in enumerate(self.path):
             if obj.TYPE == 'LINK':
@@ -422,9 +417,7 @@ class PingPongFlow(Flow):
             if obj.TYPE == 'LINK':
                 stat['qr_{0}'.format(i)] = obj.qdisc.get_occupation_in_bits()/self.PONG_PKT_SIZE_IN_BITS
         if self.est_rtt is not None :
-            mi_duration = 2*self.est_rtt
-            if self.sub_rtt is not None:
-                mi_duration = 5 * self.sub_rtt
+            mi_duration = self.est_rtt * 3
             cur_time = self.get_cur_time()
             if self.last_throughput_check_time is None:
                 self.last_throughput_check_time = cur_time
@@ -433,15 +426,10 @@ class PingPongFlow(Flow):
                 stat['throughput_Mbps'] = (self.completed_chunk_offset - self.last_checked_completed_chunk_offset) / mi_duration  * self.PONG_PKT_SIZE_IN_BITS / 1e6
                 stat["received_pong_for_throughput"] = self.received_pong_for_throughput/ mi_duration  * self.PONG_PKT_SIZE_IN_BITS / 1e6
                 self.received_pong_for_throughput = 0
+                stat["received_cwd_for_throughput"] = self.received_cwd_for_throughput/ mi_duration  * self.PING_PKT_SIZE_IN_BITS / 1e6
+                self.received_cwd_for_throughput = 0
                 self.last_throughput_check_time = cur_time
                 self.last_checked_completed_chunk_offset = self.completed_chunk_offset
-                if self.TYPE == Muilt.TYPE:
-                    stat["received_cwd_for_throughput"] = self.received_cwd_for_throughput/ mi_duration  * self.CWD_PKT_SIZE_IN_BITS / 1e6
-                    self.received_cwd_for_throughput = 0
-                    stat["send_for_throughput"] = self.send_for_throughput/ mi_duration  * self.PING_PKT_SIZE_IN_BITS / 1e6
-                    self.send_for_throughput = 0
-
-                
 
         self.append_stat(stat)
 
@@ -666,7 +654,6 @@ class ATP(TCP_Reno):
 
         #for agg
         self.chunk_seq_agg_complete = {}
-        self.chunk_multicast = {}
 
         return events
     
@@ -702,20 +689,12 @@ class ATP(TCP_Reno):
     
         
     def ps_send_ack(self, pkt,cur_time):
-        if pkt.chunk_seq in self.ping_yet_unpong:
-            pkt.ping_seq = pkt.flow.ping_yet_unpong[pkt.chunk_seq].ping_seq
-        else:
-            return []
-
-
      
         ifmuticast = False
         count = 0
         flows = [f for f in self.net.named_flows.values() if f.job_id == self.job_id and f.TYPE == self.TYPE]
         
         for flow in flows:
-            if flow.chunk_multicast[pkt.chunk_seq] == True:
-                break
             if pkt.chunk_seq in flow.ping_yet_unpong:
                 count += 1
 
@@ -723,7 +702,6 @@ class ATP(TCP_Reno):
             ifmuticast = True
             for flow in flows:
                 flow.update_ack_seq(pkt)
-                flow.chunk_multicast[pkt.chunk_seq] = True
 
         if pkt.ecn == pkt.CE:
             pkt.ece = True
@@ -1188,7 +1166,7 @@ class PAATP(ATP):
 class Muilt(PAATP):
     TYPE = 'Muilt'
 
-    PING_PKT_SIZE_IN_BITS = 8 * 122
+    PING_PKT_SIZE_IN_BITS = 8 * 112
     # PING_PKT_SIZE_IN_BITS = 8 * 300
     PONG_PKT_SIZE_IN_BITS = 8 * 300
     CWD_PKT_SIZE_IN_BITS = 8 * 62
@@ -1204,11 +1182,7 @@ class Muilt(PAATP):
     type_ab = 'AB'
     type_abc = 'ABC'
     type_abcd = 'ABCD'
-     
-    @classmethod 
-    def set_pong_pkt_size(cls, q):
-        cls.PONG_PKT_SIZE_IN_BITS = 8 * (62+60 * q)
-        return []
+
 
 
     def start(self):
@@ -1229,7 +1203,6 @@ class Muilt(PAATP):
         self.cwd_seq_to_chunk_seq = {}
         self.chunk_resend_queue = OrderedDict()
         self.min_chunk_seq = -1
-        self.chunk_seq_to_ping_seq = {}
         self.resend_chunk_seq_to_ping_seq = {}
 
         self.last_recived_cwd_seq = -1
@@ -1239,8 +1212,6 @@ class Muilt(PAATP):
         self.cwd_recv_buf = {}
 
         self.cwd_seq = 0
-
-        self.sub_rtt = 0
 
 
         #for quantify
@@ -1258,19 +1229,11 @@ class Muilt(PAATP):
         self.dctcp_pkt_cnt = 0
         self.dctcp_ecn_cnt = 0
         self.ecn_enabled = True
-        self.ssthresh = 200
 
     
 
         return Events
     
-    def update_sub_rtt(self, sample_rtt):
-        if self.sub_rtt is None:
-            self.sub_rtt = sample_rtt
-        else:
-            self.sub_rtt = self.sub_rtt * self.rtt_alpha + sample_rtt * (1 - self.rtt_alpha)
-    
-        return self.sub_rtt
  
     
     def get_pkt_type(self):
@@ -1344,12 +1307,12 @@ class Muilt(PAATP):
             # ignore reordered packets
             if len(self.chunk_resend_queue) > 0 and len(self.ping_yet_unpong) < self.awd:
                 chunk_seq, _ = self.chunk_resend_queue.popitem(last=False)
-                print(f"flow {self.id} chunk{chunk_seq} resend")
+                print("chunk resend",chunk_seq)
                 e, _ = self.send_ping(chunk_seq,-1,self.type_a,1)
                 new_events.append(e)
             elif len(self.resend_queue) > 0: #and len(self.ping_yet_unpong) < self.scwnd:
                 cwd_seq, _ = self.resend_queue.popitem(last=False)
-                print(f"flow {self.id} cwd{cwd_seq} resend")
+                print("pkt resend",cwd_seq)
                 chunk_seq = self.cwd_seq_to_chunk_seq[cwd_seq][0]
                 quantify_type = self.cwd_seq_to_chunk_seq[cwd_seq][1]
                 e, _ = self.send_ping(chunk_seq,cwd_seq,quantify_type,1)
@@ -1357,24 +1320,21 @@ class Muilt(PAATP):
             elif self.total_chunk_num is None or self.chunk_seq < self.total_chunk_num:##最后一个chunk只能发一个
                 if self.last_finished:
                     if len(self.ping_yet_unpong) < self.awd:
-                      
                         quantify_type = self.get_pkt_type()
                         chunk_seq = self.chunk_seq
                         ping_seq = self.ping_seq
                         cwd_seq =  self.cwd_seq
                         self.chunk_seq += 1
                         self.cwd_seq += 1
-                        print(f"flow {self.id} chunk{self.chunk_seq} a send")
+                    
                         e, _ = self.send_ping(chunk_seq,ping_seq,quantify_type,0)
                         new_events.append(e)
 
                 else:
-                       
                         quantify_type = self.get_pkt_type()
                         chunk_seq = self.chunk_seq - 1
                         cwd_seq = self.cwd_seq
                         self.cwd_seq  += 1
-                        print(f"flow {self.id} chunk{self.chunk_seq} cwd {self.cwd_seq} not a send")
                         e, _ = self.send_ping(chunk_seq,cwd_seq,quantify_type,0)
                         new_events.append(e)
 
@@ -1403,11 +1363,6 @@ class Muilt(PAATP):
         if chunk_seq not in self.send_times:
             self.send_times[chunk_seq] = cur_time
         
-        if chunk_seq not in self.chunk_multicast:
-            self.chunk_multicast[chunk_seq] = False
-
-
-
         if cwd_seq not in self.cwd_seq_to_chunk_seq and cwd_seq >= 0:
             self.cwd_seq_to_chunk_seq[cwd_seq] = [chunk_seq,quantify_type,0]
         stat = dict(
@@ -1426,20 +1381,17 @@ class Muilt(PAATP):
             )
         pkt.cwd_seq = cwd_seq
         pkt.ping_seq = self.ping_seq
-        if chunk_seq not in self.chunk_seq_to_ping_seq:
-            self.chunk_seq_to_ping_seq[chunk_seq] = pkt.ping_seq    
         self.ping_seq += 1
         pkt.chunk_seq = chunk_seq
         pkt.resend = resend_flag
         pkt.quantify_type = quantify_type
 
         self.sent_ping += 1
-        self.send_for_throughput += 1
 
         if cwd_seq < 0:
             pkt.pkt_type = self.RESEND_PKT_TYPE
-            pkt.size_in_bits = self.RESEND_PKT_SIZE_IN_BITS 
-            self.resend_chunk_seq_to_ping_seq[chunk_seq] = pkt.ping_seq 
+            pkt.size_in_bits = self.RESEND_PKT_SIZE_IN_BITS
+            # self.resend_chunk_seq_to_ping_seq[chunk_seq] = ping_seq
         else:
             self.cwd_out_of_order_cnts[pkt.cwd_seq] = 0
             self.ping_yet_uncwd[pkt.cwd_seq] = pkt   
@@ -1540,14 +1492,12 @@ class Muilt(PAATP):
         return []
 
     def on_cwd_received(self, pkt):
-        print(f"flow  {self.id} recieved cw {pkt.cwd_seq} ")
+        print("cwd recieved",pkt.cwd_seq)
         print("pkt.type",pkt.pkt_type)
         print("pkt.resend",pkt.resend)
         self.received_cwd += 1
         self.received_cwd_for_throughput += 1
         cur_time = self.get_cur_time()
-
-        self.update_sub_rtt(cur_time - pkt.sent_time)
         new_events = []
 
         #Muilt 
@@ -1620,8 +1570,6 @@ class Muilt(PAATP):
             else:
                 self.cwnd += 1 
                 self.update_cwnd(self.cwnd)
-                if self.ssthresh is not None and self.cwnd > self.ssthresh:
-                    self.cc_state = self.CC_STATE_CONGESTION_AVOIDANCE
 
         if self.last_ack_cwd_seq == pkt.ack_cwd_seq:
             self.last_ack_cwd_seq_duplication_cnt += 1
@@ -1631,13 +1579,66 @@ class Muilt(PAATP):
         elif self.last_ack_cwd_seq < pkt.ack_cwd_seq:
             self.last_ack_cwd_seq_duplication_cnt = 0
             while self.last_ack_cwd_seq < pkt.ack_cwd_seq:
+                # if self.last_ack_cwd_seq in self.ping_yet_uncwd:
+                #     del self.ping_yet_uncwd[self.last_ack_cwd_seq]
+                # elif self.last_ack_cwd_seq in self.resend_queue:
+                #     del self.resend_queue[self.last_ack_cwd_seq]
                 self.last_ack_cwd_seq += 1
+
+        # detect reorder
+        # to_resend = []
+        # if self.last_ack_cwd_seq_duplication_cnt >= 1:
+        #     if pkt.ack_cwd_seq not in self.resend_queue:
+        #         to_resend.append(pkt.ack_cwd_seq)
+        #         self.last_ack_cwd_seq_duplication_cnt = 0
+        #         self.resend_queue[pkt.ack_cwd_seq] = 1
+        #         if pkt.ack_cwd_seq in self.ping_yet_uncwd:
+        #             del self.ping_yet_uncwd[pkt.ack_cwd_seq]        
+
+        # if self.cc_state == self.CC_STATE_CONGESTION_AVOIDANCE:
+        #     if len(to_resend) > 0:
+        #         if cur_time > self.last_ssthresh_update_time + self.est_rtt:
+        #             self.last_ssthresh_update_time = cur_time
+        #             cwnd = self.cwnd * 0.5
+        #             self.update_ssthresh(cwnd)
+        #             self.update_cwnd(cwnd)
+        #             self.cc_state = self.CC_STATE_FAST_RECOVERY                    
+        #     else:
+        #         self.update_cwnd(self.cwnd + 1. / self.cwnd)
+        # elif self.cc_state == self.CC_STATE_FAST_RECOVERY:#快速恢复后状态改为拥塞避免
+        #     if self.last_ack_cwd_seq_duplication_cnt == 0:
+        #         self.update_cwnd(self.ssthresh)#拥塞窗口改为门限
+        #         #print('# set cwnd as', self.cwnd, self.ssthresh)
+        #         self.cc_state = self.CC_STATE_CONGESTION_AVOIDANCE#拥塞避免
+        #     else: #相等 # duplicated ack
+        #         #self.cwnd += 1
+        #         self.update_cwnd(self.cwnd + 1)
+
+        # elif self.cc_state == self.CC_STATE_SLOW_START:
+        #     if len(to_resend) > 0:
+        #         # switch to congestion avoidance
+        #         self.cc_state = self.CC_STATE_FAST_RECOVERY
+        #         self.last_ssthresh_update_time = cur_time
+
+        #         cwnd = self.cwnd * 0.5
+        #         self.update_ssthresh(cwnd)
+        #         self.update_cwnd(cwnd)
+
+        #     else: 
+        #         # stay in slow start         
+        #         self.update_cwnd(self.cwnd + 1)
+
+        #         if self.ssthresh is not None and self.ssthresh < self.cwnd:
+        #             self.cc_state = self.CC_STATE_CONGESTION_AVOIDANCE
+        # else:
+        #     print('# error!')
+        #     raise ValueError
         
 
         if self.dctcp_last_time is None:
             self.dctcp_last_time = cur_time
-        if self.sub_rtt is not None:
-            if self.dctcp_last_time + self.sub_rtt < cur_time:
+        if self.est_rtt is not None:
+            if self.dctcp_last_time + self.est_rtt < cur_time and pkt.ece:
                 dctcp_F = self.dctcp_ecn_cnt / self.dctcp_pkt_cnt
                 self.dctcp_a = self.dctcp_a * (1 - self.factors) + self.factors * dctcp_F
                 cwnd = self.cwnd * (1 - (self.dctcp_a / 2))
@@ -1655,10 +1656,12 @@ class Muilt(PAATP):
 
 
     def on_pong_received(self, pkt):
-        print(f"flow {self.id} recieved chunk_seq {pkt.chunk_seq}  type",pkt.pkt_type)
         cur_time = self.get_cur_time() 
         new_events = []        
-        self.last_pong_received_time = cur_time 
+        self.last_pong_received_time = cur_time
+        
+        print(" pong received pingseq",pkt.ping_seq)
+        print(" pong received chunk_seq",pkt.chunk_seq)            
         if pkt.ecn==Packet.CE:
             pkt.ece = True 
 
@@ -1768,10 +1771,8 @@ class Muilt(PAATP):
                 print("resend_ack")
                 if(chunk_agg_complete):
                     #ack包丢失
-                    
                     e = self.ps_send_ack(pkt,cur_time)
-                    if e != []:
-                        new_events.append(e)      
+                    new_events.append(e)      
                 else:
                     #resend_ack包达到ps
                     #该chunk还未聚合完成，重发的ack_resnd先到达ps,等待其他worker中，do nothing
@@ -1793,9 +1794,7 @@ class Muilt(PAATP):
                         ifmuticast = True
                     if ifmuticast:    
                         e = self.ps_send_ack(pkt,cur_time)
-                        if e != []:
-                            new_events.append(e)      
-               
+                        new_events.append(e)
                     else:
                         #重传的cwd不用理会
                         pass      
@@ -1807,8 +1806,8 @@ class Muilt(PAATP):
                     chunk_agg_complete = self.ps_agg_judge(pkt)
                     if(chunk_agg_complete):
                         e = self.ps_send_ack(pkt,cur_time)
-                        if e != []:
-                            new_events.append(e)  
+                     
+                        new_events.append(e)  
 
         else:
             chunk_agg_complete = self.ps_agg_judge(pkt)
@@ -1822,10 +1821,9 @@ class Muilt(PAATP):
                 self.update_chunk_seq_agg_complete(pkt)
                 chunk_agg_complete = self.ps_agg_judge(pkt)
                 if(chunk_agg_complete):
-                    self.update_ack_seq(pkt)
                     e = self.ps_send_ack(pkt,cur_time)
-                    if e != []:
-                        new_events.append(e)   
+                    self.update_ack_seq(pkt)
+                    new_events.append(e)   
               
         return new_events
 
@@ -2161,8 +2159,7 @@ class EdgeBox(Middlebox):
                     new_pkt.ece = pkt.ece
 
                     new_pkt.ping_path = flow.path
-            
-                    new_pkt.ping_seq = flow.chunk_seq_to_ping_seq[pkt.chunk_seq]
+                    new_pkt.ping_seq = pkt.ping_seq    
                     new_pkt.cwd_seq = pkt.cwd_seq
                     new_pkt.chunk_seq = pkt.chunk_seq      
                     new_pkt.recv_time = pkt.recv_time

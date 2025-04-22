@@ -492,7 +492,6 @@ class Packet(object):
         self.quantity_type = None
         self.min_chunk_seq = -1
         self.ping_seq = -1
-        self.ack_cwd_seq = 0
     
 
 
@@ -651,14 +650,6 @@ class Flow(object):
             self.rate_version += 1
         else:
             self.rate_version = new_rate_version
-        return []
-    
-    def update_Q(self, Q):
-        print('# Flow', self.id, 'new Q:', Q)
-        if Q is None:
-            return []
-        
-        self.Q = Q
         return []
 
     def get_waiting_interval(self, r=0.1):

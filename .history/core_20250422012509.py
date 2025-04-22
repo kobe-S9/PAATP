@@ -492,7 +492,6 @@ class Packet(object):
         self.quantity_type = None
         self.min_chunk_seq = -1
         self.ping_seq = -1
-        self.ack_cwd_seq = 0
     
 
 
@@ -654,10 +653,8 @@ class Flow(object):
         return []
     
     def update_Q(self, Q):
-        print('# Flow', self.id, 'new Q:', Q)
         if Q is None:
             return []
-        
         self.Q = Q
         return []
 

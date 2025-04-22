@@ -1188,7 +1188,7 @@ class PAATP(ATP):
 class Muilt(PAATP):
     TYPE = 'Muilt'
 
-    PING_PKT_SIZE_IN_BITS = 8 * 122
+    PING_PKT_SIZE_IN_BITS = 1456
     # PING_PKT_SIZE_IN_BITS = 8 * 300
     PONG_PKT_SIZE_IN_BITS = 8 * 300
     CWD_PKT_SIZE_IN_BITS = 8 * 62

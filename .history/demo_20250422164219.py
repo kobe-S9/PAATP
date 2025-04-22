@@ -178,13 +178,13 @@ class Demo(object):
         print("self.Eta:",Eta)
         print("SZX ACEN line:",self.net.line)
 
-        q = 4
+        q = 1
         Muilt.set_pong_pkt_size(q)
 
         events = [
          
-            Event(0.0, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps = most_stalled_rate)),
-            Event(0.0, self.flows[0], 'update_Q', params=dict(Q=q)),
+            Event(0.0, self.flows[0], 'update_rate', params=dict(version=0, new_rate_bps = most_stalled_rate)),
+            Event(0.0, self.flows[1], 'update_Q', params=dict(Q=q)),
 
             # Event(0.2, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=bw_bps * 0.6)),
             # Event(0.4, self.flows[1], 'update_rate', params=dict(version=0, new_rate_bps=1.8*bw_bps )),

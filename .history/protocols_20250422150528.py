@@ -58,7 +58,6 @@ class PingPongFlow(Flow):
         self.dev_rtt = None
         self.rtt_alpha = self.params.get('rtt_alpha', 0.9)
         self.rtt_beta = self.params.get('rtt_beta', 0.9)
-        self.sub_rtt = None
 
         self.ecn_enabled = False
 
@@ -410,7 +409,6 @@ class PingPongFlow(Flow):
         if self.TYPE == Muilt.TYPE:
             stat["recieved_cwd"] = self.received_cwd
             stat["last_aack"] = self.last_recived_chunk_seq
-            stat["last_cwd"] = self.last_cwd_received_seq
             stat["awd"] = self.awd
             stat["quantity"] = self.Q
             
@@ -423,8 +421,6 @@ class PingPongFlow(Flow):
                 stat['qr_{0}'.format(i)] = obj.qdisc.get_occupation_in_bits()/self.PONG_PKT_SIZE_IN_BITS
         if self.est_rtt is not None :
             mi_duration = 2*self.est_rtt
-            if self.sub_rtt is not None:
-                mi_duration = 5 * self.sub_rtt
             cur_time = self.get_cur_time()
             if self.last_throughput_check_time is None:
                 self.last_throughput_check_time = cur_time
@@ -1204,10 +1200,9 @@ class Muilt(PAATP):
     type_ab = 'AB'
     type_abc = 'ABC'
     type_abcd = 'ABCD'
-     
-    @classmethod 
-    def set_pong_pkt_size(cls, q):
-        cls.PONG_PKT_SIZE_IN_BITS = 8 * (62+60 * q)
+
+    def set_pong_pkt_size(cls, size_in_bytes):
+        cls.PONG_PKT_SIZE_IN_BITS = 8 * size_in_bytes
         return []
 
 
