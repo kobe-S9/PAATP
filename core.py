@@ -252,6 +252,11 @@ class Link(object):
         #self.config_ecn(ecn_threshold_factor)
         self.unscheduled = True
         self.params = params 
+        
+        #for statistics
+        self.pkt_enq_bit = 0
+        self.stats = []  # 统计信息
+        self.check_time = 0
     
     def __lt__(self, other):
         return self.id < other.id
@@ -273,12 +278,32 @@ class Link(object):
         self.bw_bps = new_bw_bps
         return []
 
+    def append_stat(self, stat):
+        if self.stats is None:
+            return
+        cur_time = self.get_cur_time()
+        self.stats.append((cur_time, stat))
+
     def pkt_enq(self, pkt):
         #current_time = self.get_cur_time()
         if random.random() < self.lr:
             pkt.drop(pkt.DROP_CAUSED_BY_LINK_ERROR)
         else:
-            print('# link', self.id, 'received packet', pkt.chunk_seq, "flow_id",pkt.flow.id,"ping",pkt.ping_seq)
+            # print('# link', self.id, 'received packet', pkt.chunk_seq, "flow_id",pkt.flow.id,"ping",pkt.ping_seq)
+            self.pkt_enq_bit += pkt.size_in_bits
+            mi_duration = 0.01
+            stat = dict()
+            cur_time = self.get_cur_time()
+            if self.check_time is None:
+                self.check_time = cur_time
+            elif self.check_time + mi_duration < cur_time:
+                stat['link{0}'.format(self.id)] = self.pkt_enq_bit / mi_duration/self.bw_bps
+                self.pkt_enq_bit = 0
+                self.check_time = cur_time
+                self.append_stat(stat)
+
+                
+
             self.qdisc.enq(pkt)
         
     def pkt_deq(self):
@@ -345,6 +370,11 @@ class Network(object):
         self.ps_job_record = {}
         self.jobs_config = {}
 
+        #for paatp
+        self.awd = {}
+        self.ack_pkt_cnt = {}
+        self.aecn_pkt_cnt = {}
+
         self.init_links()
         self.init_flows()
         self.init_boxes()
@@ -399,7 +429,8 @@ class Network(object):
             #print(self.cur_time, e.type, self.events)
             new_events = e.exec()
             for e in new_events:
-                heapq.heappush(self.events, e)
+                if isinstance(e, Event):
+                    heapq.heappush(self.events, e)
         
         self.stop_boxes()
 
@@ -418,26 +449,62 @@ class Middlebox(object):
         self.net = None
         self.id = Middlebox._get_next_id()
         self.name = name or self.id
+        
+        #for statistics
+        self.sw_pps = 0
+        self.sw_recv_pps = 0
+        self.sw_send_pps = 0
+        self.check_time = None
+        self.stats = []  # 统计信息
 
     def register_network(self, net):
         self.net = net
+    
+    
+    def append_stat(self, stat):
+        if self.stats is None:
+            return
+        cur_time = self.get_cur_time()
+        self.stats.append((cur_time, stat))
+
 
     def on_pkt_received(self, pkt):
-        print('# Middlebox received packet', pkt.chunk_seq, "flow_id",pkt.flow.id,"ping",pkt.ping_seq)
+        # print('# Middlebox received packet', pkt.chunk_seq, "flow_id",pkt.flow.id,"ping",pkt.ping_seq)
         
         pkt.hop()
         pkts = self.process(pkt)
+
+        self.sw_recv_pps += 1
+        self.sw_pps += 1
         
         cur_time = self.get_cur_time()
         
         events = []
 
         for pkt in pkts:
+            self.sw_send_pps += 1
+            self.sw_pps += 1
             # print("#Middlebox send packet", pkt.chunk_seq, "flow_id",pkt.flow.id)
             obj = pkt.get_next_hop()
             e = Event(cur_time, obj, 'on_pkt_received', params=dict(pkt=pkt))
             events.append(e)
 
+        stat = dict()
+        mi_duration = 0.01
+        cur_time = self.get_cur_time()
+        if self.check_time is None:
+            self.check_time = cur_time
+        elif self.check_time + mi_duration < cur_time:
+
+            stat['sw_pps'] = self.sw_pps/ mi_duration if mi_duration > 0 else 0
+            self.sw_pps = 0
+            stat['sw_agg_count'] = sum(len(chunks) for chunks in self.aggregator.values())/self.max_mup_cache_size if self.max_mup_cache_size > 0 else 0
+            stat['sw_recv_pps'] = self.sw_recv_pps/ mi_duration if mi_duration > 0 else 0
+            self.sw_recv_pps = 0
+            stat['sw_send_pps'] = self.sw_send_pps/ mi_duration if mi_duration > 0 else 0
+            self.sw_send_pps = 0
+            self.check_time = cur_time
+            self.append_stat(stat)
         return events
         
     def get_cur_time(self):
@@ -493,6 +560,8 @@ class Packet(object):
         self.min_chunk_seq = -1
         self.ping_seq = -1
         self.ack_cwd_seq = 0
+        self.q = 1
+        self.cwd_seq = 0
     
 
 
@@ -654,7 +723,7 @@ class Flow(object):
         return []
     
     def update_Q(self, Q):
-        print('# Flow', self.id, 'new Q:', Q)
+        # print('# Flow', self.id, 'new Q:', Q)
         if Q is None:
             return []
         

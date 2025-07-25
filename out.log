@@ -1,0 +1,22 @@
+[<core.Link object at 0x7d63258b8350>, <core.Link object at 0x7d63257018e0>, <core.Link object at 0x7d6325701ca0>, <core.Link object at 0x7d6325701eb0>, <core.Link object at 0x7d63257020c0>, <core.Link object at 0x7d63257022d0>]
+f.path 1 5
+f.rpath 6 2
+f.path 3 5
+f.rpath 6 4
+SZX CA_and_N: 42.666666666666664
+SZX M_and_BDP: 40041.666666666664
+self.Eta: 0.9989344432882414
+SZX ACEN line: 30000
+return2 ,self.state 3
+return2 ,self.state 3
+
+# Flow ATP 1 sent ping, received ping, sent pong, recevied pong 10000 9 9 10000 0.241832
+# Flow ATP 2 sent ping, received ping, sent pong, recevied pong 10000 9991 9991 10000 0.241832
+flow 1 sent_ping 10000 received_ping 9 sent_pong 9 received_pong 10000
+drop stat {}
+expired time None
+flow 2 sent_ping 10000 received_ping 9991 sent_pong 9991 received_pong 10000
+drop stat {}
+expired time None
+Total number of axes: 27
+done!
