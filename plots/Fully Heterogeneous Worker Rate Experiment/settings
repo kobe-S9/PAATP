@@ -1,6 +1,0 @@
-link_bw_bps:100Mbps
-w1:0.1
-w2:0.5
-w3:1
-w4:1.5
-cache 40k,line:30k
